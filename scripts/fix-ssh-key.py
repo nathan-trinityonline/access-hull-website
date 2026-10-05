@@ -1,8 +1,16 @@
 # Rebuilds a pasted private key with proper line breaks (pasting on a phone often joins the lines).
-import re, sys
+import base64, re, sys
 k = sys.stdin.read().replace('\r', '').replace('\\n', '\n').strip().strip('"\'')
 # Phones can turn the dashes in -----BEGIN into long dashes
 k = re.sub(r'[\u2010-\u2015\u2212-]{2,}', '-----', k)
+# Copying only the middle of the key loses the BEGIN/END lines; put them back
+if 'BEGIN' not in k:
+    raw = re.sub(r'[^A-Za-z0-9+/=]', '', k)
+    try:
+        if base64.b64decode(raw + '=' * (-len(raw) % 4)).startswith(b'openssh-key-v1'):
+            k = f'-----BEGIN OPENSSH PRIVATE KEY-----\n{raw}\n-----END OPENSSH PRIVATE KEY-----'
+    except ValueError:
+        pass
 m = re.search(r'-----BEGIN ([A-Z ]+)-----(.*?)-----END \1-----', k, re.S)
 if not m:
     # Describe what was pasted without printing any of it
