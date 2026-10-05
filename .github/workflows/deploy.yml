@@ -75,8 +75,12 @@ jobs:
           SG_SSH_PASSPHRASE: ${{ secrets.SG_SSH_PASSPHRASE }}
         run: |
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          printf '%s\n' "$SG_SSH_KEY" | tr -d '\r' > ~/.ssh/siteground
+          printf '%s\n' "$SG_SSH_KEY" | python3 scripts/fix-ssh-key.py > ~/.ssh/siteground
           chmod 600 ~/.ssh/siteground
+          if ! ssh-keygen -y -P "$SG_SSH_PASSPHRASE" -f ~/.ssh/siteground > /dev/null; then
+            echo "::error::The SG_SSH_KEY secret could not be opened with the SG_SSH_PASSPHRASE secret. Re-copy the private key from SiteGround and check the password."
+            exit 1
+          fi
           ssh-keyscan -p "$SG_PORT" "$SG_HOST" >> ~/.ssh/known_hosts
           # Unlock the key with its password, if it has one
           eval "$(ssh-agent -s)"
