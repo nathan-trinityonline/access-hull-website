@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Content editor | Access:Hull</title>
+</head>
+<body>
+  <script>window.CMS_MANUAL_INIT = true;</script>
+  <script src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"></script>
+  <script src="/admin/preview.js"></script>
+  <script>
+    // Sign in through this site's own /api/auth.php (see api/config.example.php).
+    // The rest of the settings come from config.yml.
+    CMS.init({ config: { backend: { base_url: location.origin, auth_endpoint: 'api/auth.php' } } });
+  </script>
+</body>
+</html>

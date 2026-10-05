@@ -1,0 +1,56 @@
+# Builds the site and uploads it to SiteGround whenever main changes,
+# including every time someone publishes in the content editor.
+#
+# Set these in GitHub: Settings > Secrets and variables > Actions
+#   Secrets:   SG_SSH_KEY  (private key; its public half imported in SiteGround Site Tools > Devs > SSH Keys Manager)
+#   Variables: SG_HOST     (e.g. ssh.yourdomain.org.uk)
+#              SG_USER     (SSH username from SiteGround)
+#              SG_PATH     (e.g. www/yourdomain.org.uk/public_html)
+#              SITE_URL    (e.g. https://www.yourdomain.org.uk)
+name: Build and deploy to SiteGround
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+
+      - name: Upload to SiteGround
+        # Skipped until the SiteGround connection details are added (see the comments at the top)
+        if: ${{ vars.SG_HOST != '' }}
+        env:
+          SG_SSH_KEY: ${{ secrets.SG_SSH_KEY }}
+          SG_HOST: ${{ vars.SG_HOST }}
+          SG_USER: ${{ vars.SG_USER }}
+          SG_PATH: ${{ vars.SG_PATH }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SG_SSH_KEY" > ~/.ssh/siteground
+          chmod 600 ~/.ssh/siteground
+          ssh-keyscan -p 18765 "$SG_HOST" >> ~/.ssh/known_hosts
+          # --delete removes files the site no longer has, but never the server's own
+          # settings (api/config.php) or SiteGround's .well-known folder.
+          rsync -az --delete \
+            --exclude 'api/config.php' --exclude '.well-known/' \
+            -e "ssh -p 18765 -i ~/.ssh/siteground" \
+            dist/ "$SG_USER@$SG_HOST:$SG_PATH/"

@@ -1,0 +1,8 @@
+---
+import Thumb from './Thumb.astro';
+import { formatDate, type Post } from '../lib/posts';
+interface Props { post: Post; feat?: boolean }
+const { post, feat = false } = Astro.props;
+const H = feat ? 'h2' : 'h3';
+---
+<a class:list={['bp-card', { feat }]} href={post.href}><div class="bp-thumb"><Thumb i={post.i} /><span class="bp-cat">{post.data.category}</span></div><div class="bp-cbody"><p class="bp-meta">{formatDate(post.data.date)}  ·  {post.mins} min read</p><H>{post.data.title}</H><p class="bp-dek">{post.data.dek}</p><span class="bp-more">Read more</span></div></a>

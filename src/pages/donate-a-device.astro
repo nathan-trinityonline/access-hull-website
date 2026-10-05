@@ -1,0 +1,157 @@
+---
+import contact from '../data/contact.json';
+import Base from '../layouts/Base.astro';
+---
+<Base title="Donate a device" description="Donate an old laptop, tablet or phone to help a Hull resident get online. Every device is securely wiped. Businesses can arrange bulk collection with data-wipe certificates.">
+
+  <section class="st-hero" aria-labelledby="dd-h">
+    <div class="ah-in">
+      <p class="ah-eyebrow">Donate a device</p>
+      <h1 id="dd-h">Your old laptop could get a Hull family online</h1>
+      <p class="lead">We securely wipe donated laptops, tablets and phones, refurbish them, and give them to residents, schools and job seekers who don't have one. Devices we can't reuse are recycled responsibly.</p>
+      <div class="ah-btns"><a class="btn btn-p" href="#dd-form-h">Offer a device</a></div>
+      <ul class="st-facts">
+        <li><b>14%</b><span>of Hull pupils aged 8–16 had no device at home in 2021</span></li>
+        <li><b>1,156</b><span>donated laptops were shared by East Hull primary schools in 2021</span></li>
+        <li><b>100%</b><span>of donated devices are data-wiped before reuse or recycling</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="ah-sec" aria-labelledby="dd-acc-h">
+    <div class="ah-in">
+      <div class="sec-head"><p class="ah-eyebrow">What we accept</p><h2 id="dd-acc-h">Devices we can use</h2><p>Working devices are best, but we can recycle most electronics safely.</p></div>
+      <div class="dd-acc">
+        <div class="dd-card"><h3>Laptops</h3><p>Windows laptops or MacBooks, ideally less than 7 years old, with a charger.</p></div>
+        <div class="dd-card"><h3>Tablets</h3><p>iPads and Android tablets that still get software updates, with a charger.</p></div>
+        <div class="dd-card"><h3>Smartphones</h3><p>iPhones and Android phones less than 5 years old, unlocked if possible.</p></div>
+        <div class="dd-card"><h3>Desktops and monitors</h3><p>From businesses and schools, in batches, for hubs and community spaces.</p></div>
+      </div>
+      <p class="st-note">Cracked screen or won't switch on? Offer it anyway. If we can't repair it, we'll recycle it and wipe its data first.</p>
+    </div>
+  </section>
+
+  <section class="ah-sec alt" aria-labelledby="dd-how-h">
+    <div class="ah-in">
+      <div class="sec-head"><h2 id="dd-how-h">How it works</h2></div>
+      <ol class="st-steps">
+        <li><b>Tell us what you have</b><span>Fill in the short form below. We'll reply within five working days.</span></li>
+        <li><b>Drop off or we collect</b><span>Bring devices to our office, or we'll collect donations of 10 or more.</span></li>
+        <li><b>Secure data wipe</b><span>Every device is wiped to a recognised standard. Businesses get a certificate.</span></li>
+        <li><b>Back in use in Hull</b><span>Refurbished devices go to residents through our hubs, schools and partners.</span></li>
+      </ol>
+      <div class="dd-two">
+        <div class="dd-prep">
+          <h3>Before you hand it over</h3>
+          <ul>
+            <li>Back up any photos and files you want to keep</li>
+            <li>Sign out of your Apple ID or Google account, and turn off Find My</li>
+            <li>Remove your SIM and memory card</li>
+            <li>Factory reset it if you can. Don't worry if not, we'll wipe it anyway</li>
+            <li>Include the charger if you still have it</li>
+          </ul>
+        </div>
+        <div class="st-cta">
+          <h3>Donating as a business?</h3>
+          <p>We collect end-of-life IT in bulk, provide data-wipe certificates for every device, and give you figures on how many residents your donation helped for your social value reporting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ah-sec" aria-labelledby="dd-form-h">
+    <div class="ah-in">
+      <div class="sec-head"><p class="ah-eyebrow">Offer a device</p><h2 id="dd-form-h">Tell us what you'd like to donate</h2><p>Three short steps, then check your answers. It takes about three minutes.</p></div>
+      <form class="pq" id="dd" name="donate-a-device" method="post" action="/api/form.php" novalidate>
+          <input type="hidden" name="form-name" value="donate-a-device">
+          <p class="hp" hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="steps" aria-hidden="true">
+          <div class="steps-bar"><i id="dd-bar"></i></div>
+          <ol class="steps-list s4" id="dd-steps"><li>About you</li><li>Devices</li><li>Handover</li><li>Review</li></ol>
+        </div>
+        <p class="steps-sr" id="dd-stepinfo" aria-live="polite"></p>
+
+        <fieldset class="step" data-step="0">
+          <legend>About you</legend>
+          <div class="grp" role="radiogroup" aria-labelledby="dd-who-l">
+            <span class="gl" id="dd-who-l">Are you donating as</span>
+            <div class="seg">
+              <label><input type="radio" name="dd-who" value="An individual" checked> An individual</label>
+              <label><input type="radio" name="dd-who" value="A business or organisation"> A business or organisation</label>
+            </div>
+          </div>
+          <label for="dd-org" id="dd-org-l" hidden>Business or organisation name<input id="dd-org" name="organisation" autocomplete="organization"></label>
+          <div class="row2">
+            <label for="dd-name">Your name<input id="dd-name" name="name" autocomplete="name" required></label>
+            <label for="dd-email">Email<input id="dd-email" name="email" type="email" autocomplete="email" required></label>
+            <label for="dd-phone">Phone (optional)<input id="dd-phone" name="phone" type="tel" autocomplete="tel"></label>
+            <label for="dd-pc">Postcode<input id="dd-pc" name="postcode" autocomplete="postal-code" required></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="1" hidden>
+          <legend>Your devices</legend>
+          <div class="grp"><span class="gl">How many of each?</span>
+            <div class="qty" id="dd-qty">
+              <label for="dd-q-laptop">Laptops<input id="dd-q-laptop" name="laptops" data-k="Laptops" type="number" min="0" max="999" value="0" inputmode="numeric"></label>
+              <label for="dd-q-tablet">Tablets<input id="dd-q-tablet" name="tablets" data-k="Tablets" type="number" min="0" max="999" value="0" inputmode="numeric"></label>
+              <label for="dd-q-phone">Smartphones<input id="dd-q-phone" name="smartphones" data-k="Smartphones" type="number" min="0" max="999" value="0" inputmode="numeric"></label>
+              <label for="dd-q-desktop">Desktop PCs<input id="dd-q-desktop" name="desktops" data-k="Desktop PCs" type="number" min="0" max="999" value="0" inputmode="numeric"></label>
+              <label for="dd-q-monitor">Monitors<input id="dd-q-monitor" name="monitors" data-k="Monitors" type="number" min="0" max="999" value="0" inputmode="numeric"></label>
+              <label for="dd-q-other">Other<input id="dd-q-other" name="other_devices" data-k="Other" type="number" min="0" max="999" value="0" inputmode="numeric"></label>
+            </div>
+          </div>
+          <div class="row3">
+            <label for="dd-age">Roughly how old?
+              <select id="dd-age" name="device_age"><option value="">Choose one</option><option>Less than 3 years</option><option>3 to 5 years</option><option>5 to 7 years</option><option>Over 7 years</option><option>A mix</option><option>Not sure</option></select>
+            </label>
+            <label for="dd-cond">Condition
+              <select id="dd-cond" name="condition"><option value="">Choose one</option><option>All working</option><option>Mostly working</option><option>Some damaged or not working</option><option>Not sure</option></select>
+            </label>
+            <label for="dd-chg">Chargers included?
+              <select id="dd-chg" name="chargers"><option value="">Choose one</option><option>Yes, all</option><option>Some</option><option>No</option></select>
+            </label>
+          </div>
+          <label for="dd-desc">Make, model or anything else (optional)<textarea id="dd-desc" name="details" rows="3" placeholder="For example: 2 Dell Latitude 5490 laptops, 1 iPad 8th generation"></textarea></label>
+        </fieldset>
+
+        <fieldset class="step" data-step="2" hidden>
+          <legend>Getting them to us</legend>
+          <div class="grp" role="radiogroup" aria-labelledby="dd-how-l">
+            <span class="gl" id="dd-how-l">How would you like to hand them over?</span>
+            <div class="seg">
+              <label><input type="radio" name="dd-how" value="Drop off at the Access:Hull office" checked> I'll drop them off</label>
+              <label><input type="radio" name="dd-how" value="Collection"> Please collect them</label>
+            </div>
+            <p class="hint" id="dd-how-hint">{`Drop off at ${contact.address[0]}, ${contact.address[1]}, ${contact.address[contact.address.length - 1]}, ${contact.hours}.`}</p>
+          </div>
+          <label for="dd-addr" id="dd-addr-l" hidden>Collection address<textarea id="dd-addr" name="collection_address" rows="3" autocomplete="street-address"></textarea></label>
+          <label for="dd-when">When suits you? (optional)<input id="dd-when" name="timing" placeholder="For example: weekday mornings from next week"></label>
+          <label class="consent"><input type="checkbox" id="dd-cert" name="wipe_certificate"> I'd like a data-wipe certificate for these devices</label>
+        </fieldset>
+
+        <fieldset class="step" data-step="3" hidden>
+          <legend>Check your answers</legend>
+          <dl class="review" id="dd-review"></dl>
+          <label class="consent"><input type="checkbox" id="dd-own" name="owns_devices" required> These devices are mine, or my organisation's, to give away.</label>
+          <label class="consent"><input type="checkbox" id="dd-consent" name="consent" required> I'm happy for Access:Hull to contact me about this donation.</label>
+        </fieldset>
+
+        <div class="pq-foot">
+          <button class="btn btn-s" type="button" id="dd-prev">Back</button>
+          <button class="btn btn-p" type="button" id="dd-next">Continue</button>
+          <button class="btn btn-p" type="submit" id="dd-submit" hidden>Send donation offer</button>
+          <p class="pq-out" id="dd-out" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div class="pq-done" id="dd-done" hidden tabindex="-1">
+        <h2>Thank you for your donation offer.</h2>
+        <p>We'll be in touch within five working days to arrange the handover.</p>
+        <a class="btn btn-p" href="/">Back to homepage</a>
+      </div>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline src="/js/forms.js"></script>
+  <script slot="scripts" is:inline src="/js/donate.js"></script>
+</Base>

@@ -1,0 +1,6 @@
+---
+// Server-rendered venue card; public/js/find-help.js renders the same markup after a search.
+const { v } = Astro.props;
+const dir = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${v.name}, ${v.address} ${v.postcode}`);
+---
+<li class="fh-item"><div class="fh-ih"><span class={`fh-type t-${v.type.split(' ')[0].toLowerCase()}`}>{v.type}</span></div><h3>{v.name}</h3><dl class="hub-d"><dt>Address</dt><dd>{`${v.address} ${v.postcode} · ${v.area}`}</dd><dt>Open</dt><dd>{v.hours || 'Check opening times before you visit'}</dd>{v.phone && <><dt>Phone</dt><dd>{v.phone}</dd></>}</dl><div class="offer">{v.services.map((s: string) => <span>{s}</span>)}</div><div class="fh-act"><a class="fh-link" href={dir} rel="noopener">Directions</a>{v.link && <a class="fh-link" href={v.link} rel="noopener">{v.type === 'Library' ? 'Opening times' : 'More information'}</a>}</div></li>

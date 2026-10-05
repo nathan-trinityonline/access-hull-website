@@ -1,0 +1,529 @@
+{
+ "venues": [
+  {
+   "name": "Hull Central Library",
+   "type": "Library",
+   "address": "Albion Street, Hull",
+   "postcode": "HU1 3TF",
+   "area": "City centre",
+   "hours": "Mon–Tue 9:30am–5pm, Wed 1pm–7:30pm, Thu 9:30am–7:30pm, Fri 9:30am–1pm, Sat 10am–4pm",
+   "phone": "01482 210 000",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "East Park Library",
+   "type": "Library",
+   "address": "Holderness Road, Hull",
+   "postcode": "HU8 8JU",
+   "area": "East Park",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Bransholme Library",
+   "type": "Library",
+   "address": "Goodhart Road, Hull",
+   "postcode": "HU7 4EF",
+   "area": "Bransholme",
+   "hours": "Council hub: Mon, Tue and Thu 9:30am–12:30pm and 1:30pm–5pm",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help",
+    "Council services"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Ings Library",
+   "type": "Library",
+   "address": "Savoy Road, Hull",
+   "postcode": "HU8 0TY",
+   "area": "Ings",
+   "hours": "Council hub: Tuesday 2pm–4:30pm",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help",
+    "Council services"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Avenues Library",
+   "type": "Library",
+   "address": "76 Chanterlands Avenue, Hull",
+   "postcode": "HU5 3TS",
+   "area": "The Avenues",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Greenwood Avenue Library",
+   "type": "Library",
+   "address": "220 Greenwood Avenue, Hull",
+   "postcode": "HU6 9RU",
+   "area": "Orchard Park",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Fred Moore Library",
+   "type": "Library",
+   "address": "Wold Road, Hull",
+   "postcode": "HU5 5UN",
+   "area": "Derringham",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Western Library",
+   "type": "Library",
+   "address": "262–264 Boulevard, Hull",
+   "postcode": "HU3 3ED",
+   "area": "Boulevard",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Freedom Centre Library",
+   "type": "Library",
+   "address": "97 Preston Road, Hull",
+   "postcode": "HU9 3QB",
+   "area": "Preston Road",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Gipsyville Library",
+   "type": "Library",
+   "address": "728–730 Hessle Road, Hull",
+   "postcode": "HU4 6JA",
+   "area": "Gipsyville",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Waudby Library",
+   "type": "Library",
+   "address": "Hemswell Avenue, Hull",
+   "postcode": "HU9 5LD",
+   "area": "Marfleet",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "Longhill Library",
+   "type": "Library",
+   "address": "162 Shannon Road, Hull",
+   "postcode": "HU8 9PD",
+   "area": "Longhill",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers",
+    "Free Wi-Fi",
+    "Printing",
+    "Digital help"
+   ],
+   "link": "https://www.hulllibraries.co.uk/local-library"
+  },
+  {
+   "name": "West Hull Community Hub",
+   "type": "Community group",
+   "address": "Johnny Whiteley Park, North Road, Hull",
+   "postcode": "HU4 6LQ",
+   "area": "West Hull",
+   "hours": "Thursday 10am–3pm, Friday 10am–12:30pm",
+   "phone": "",
+   "services": [
+    "Free SIMs",
+    "Mobile data",
+    "Digital help"
+   ],
+   "link": "https://westhullcommunityhub.org.uk/contact-us/"
+  },
+  {
+   "name": "Johnny Whiteley Centre",
+   "type": "Council hub",
+   "address": "North Road, Hull",
+   "postcode": "HU4 6LQ",
+   "area": "West Hull",
+   "hours": "Thursday 10am–2pm, and last Wednesday of the month 9:15am–1pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "North Bransholme Community Shop",
+   "type": "Council hub",
+   "address": "Lothian Way, Hull",
+   "postcode": "HU7 5DD",
+   "area": "North Bransholme",
+   "hours": "Monday 9am–1pm",
+   "phone": "",
+   "services": [
+    "Council services",
+    "Digital help"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Alf Marshall Centre",
+   "type": "Council hub",
+   "address": "87 Goodhart Road, Hull",
+   "postcode": "HU7 4EE",
+   "area": "Bransholme",
+   "hours": "Friday 9am–1pm",
+   "phone": "",
+   "services": [
+    "Council services",
+    "Printing"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Bodmin Road Church",
+   "type": "Council hub",
+   "address": "Padstow Close, Hull",
+   "postcode": "HU7 4HE",
+   "area": "Bransholme",
+   "hours": "Wednesday 9:15am–3pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "The Pennine",
+   "type": "Council hub",
+   "address": "Grampian Way, Hull",
+   "postcode": "HU7 5EF",
+   "area": "North Bransholme",
+   "hours": "Tuesday 9:30am–12:30pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Sutton Warm Welcome",
+   "type": "Council hub",
+   "address": "Potterill Lane, Sutton, Hull",
+   "postcode": "HU7 4TD",
+   "area": "Sutton",
+   "hours": "Monday 10:30am–12 noon",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Eastmount Recreation Centre",
+   "type": "Council hub",
+   "address": "Waveney Road, Hull",
+   "postcode": "HU8 9NB",
+   "area": "Longhill",
+   "hours": "Thursday 2pm–4:30pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "EMS",
+   "type": "Council hub",
+   "address": "1 Endeavour Crescent, Hull",
+   "postcode": "HU9 5SZ",
+   "area": "Marfleet",
+   "hours": "Thursday 10am–1pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "St Hilda's Church",
+   "type": "Council hub",
+   "address": "Annandale Road, Hull",
+   "postcode": "HU9 4JY",
+   "area": "Greatfield",
+   "hours": "Tuesday 10am–12 noon, Wednesday 10am–2pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "St Philip's Church",
+   "type": "Council hub",
+   "address": "115 Amethyst Road, Hull",
+   "postcode": "HU9 4JG",
+   "area": "Bilton Grange",
+   "hours": "Friday 10am–12 noon",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "St Stephen's Neighbourhood Centre",
+   "type": "Council hub",
+   "address": "96 Annandale Road, Hull",
+   "postcode": "HU9 4LA",
+   "area": "Greatfield",
+   "hours": "Thursday 9am–1pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Lonsdale Community Centre",
+   "type": "Council hub",
+   "address": "8 Lonsdale Street, Hull",
+   "postcode": "HU3 6PA",
+   "area": "Anlaby Road",
+   "hours": "Council hub: Tuesday 10am–1pm",
+   "phone": "",
+   "services": [
+    "Council services",
+    "Free computers"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Oasis Hub Hull",
+   "type": "Council hub",
+   "address": "310 Newland Avenue, Hull",
+   "postcode": "HU5 2NB",
+   "area": "Newland",
+   "hours": "Wednesday 11am–4:30pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "St Martin's Church",
+   "type": "Council hub",
+   "address": "North Road, Hull",
+   "postcode": "HU4 6DD",
+   "area": "West Hull",
+   "hours": "Tuesday 10:30am–1pm",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "St Michael's Youth Project",
+   "type": "Council hub",
+   "address": "Orchard Park Road, Hull",
+   "postcode": "HU6 9BX",
+   "area": "Orchard Park",
+   "hours": "Tuesday 10:30am–12 noon",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Welcome House",
+   "type": "Council hub",
+   "address": "3 Wright Street, Hull",
+   "postcode": "HU2 8HU",
+   "area": "City centre",
+   "hours": "Friday 10am–12 noon",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "As Suffra Education",
+   "type": "Council hub",
+   "address": "Walker Street, Hull",
+   "postcode": "HU3 2HD",
+   "area": "Anlaby Road",
+   "hours": "After Friday prayer for 90 minutes, every 3 weeks",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Hull Mosque and Islamic Centre",
+   "type": "Council hub",
+   "address": "2 Berkeley Street, Hull",
+   "postcode": "HU3 1PR",
+   "area": "Anlaby Road",
+   "hours": "After Friday prayer for 90 minutes, every 3 weeks",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Hull Jame Masjid, Pearson Park Mosque",
+   "type": "Council hub",
+   "address": "20 Pearson Park, Hull",
+   "postcode": "HU5 2TD",
+   "area": "Pearson Park",
+   "hours": "After Friday prayer for 90 minutes, every 3 weeks",
+   "phone": "",
+   "services": [
+    "Council services"
+   ],
+   "link": "https://www.hull.gov.uk/customer-services/community-hubs"
+  },
+  {
+   "name": "Goodwin Development Trust, The Octagon",
+   "type": "Community group",
+   "address": "Walker Street, Hull",
+   "postcode": "HU3 2RE",
+   "area": "Anlaby Road",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers"
+   ],
+   "link": ""
+  },
+  {
+   "name": "URBaN",
+   "type": "Community group",
+   "address": "9 Appin Close, North Bransholme, Hull",
+   "postcode": "HU7 5BB",
+   "area": "North Bransholme",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers"
+   ],
+   "link": ""
+  },
+  {
+   "name": "The Lemon Tree Children’s Centre",
+   "type": "Community group",
+   "address": "Lothian Way, Hull",
+   "postcode": "HU7 5DD",
+   "area": "North Bransholme",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers"
+   ],
+   "link": ""
+  },
+  {
+   "name": "Gipsyville Multi Purpose Centre (PANDA)",
+   "type": "Community group",
+   "address": "729–730 Hessle Road, Hull",
+   "postcode": "HU4 6JA",
+   "area": "Gipsyville",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Free computers"
+   ],
+   "link": ""
+  },
+  {
+   "name": "Jobcentre Plus, Britannia House",
+   "type": "Jobcentre",
+   "address": "2 Ferensway, Hull",
+   "postcode": "HU2 8NF",
+   "area": "City centre",
+   "hours": "",
+   "phone": "",
+   "services": [
+    "Job search help",
+    "Free computers"
+   ],
+   "link": "https://www.gov.uk/contact-jobcentre-plus"
+  }
+ ]
+}

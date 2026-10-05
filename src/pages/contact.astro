@@ -1,0 +1,55 @@
+---
+import contact from '../data/contact.json';
+import Base from '../layouts/Base.astro';
+---
+<Base title="Contact us" description="Get in touch with Access:Hull about getting online, free SIMs and social tariffs, digital hubs, our data, or working with us.">
+
+  <section class="ah-sec" aria-labelledby="ct-h">
+    <div class="ah-in">
+      <div class="sec-head">
+        <p class="ah-eyebrow">Contact us</p>
+        <h1 id="ct-h">Get in touch</h1>
+        <p>Questions about getting online, the programme or our data? Send us a message and we'll reply within five working days.</p>
+      </div>
+      <div class="ct-grid">
+        <form class="pq ct" id="ct" name="contact" method="post" action="/api/form.php" novalidate>
+          <input type="hidden" name="form-name" value="contact">
+          <p class="hp" hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <div class="row2">
+            <label for="ct-name">Your name<input id="ct-name" name="name" autocomplete="name" required></label>
+            <label for="ct-email">Email<input id="ct-email" name="email" type="email" autocomplete="email" required></label>
+            <label for="ct-phone">Phone (optional)<input id="ct-phone" name="phone" type="tel" autocomplete="tel"></label>
+            <label for="ct-topic">What is it about?
+              <select id="ct-topic" name="topic" required>
+                <option value="">Choose one</option>
+                <option>Help getting online</option><option>Free SIMs and social tariffs</option><option>Digital hubs and drop-ins</option>
+                <option>Data and research</option><option>Press and media</option><option>Feedback or a complaint</option><option>Something else</option>
+              </select>
+            </label>
+          </div>
+          <label for="ct-msg">Your message<textarea id="ct-msg" name="msg" rows="6" required></textarea></label>
+          <label class="consent"><input type="checkbox" id="ct-consent" name="consent" required> I'm happy for Access:Hull to contact me about my enquiry.</label>
+          <div class="pq-foot"><button class="btn btn-p" type="submit" id="ct-submit">Send message</button><p class="pq-out" id="ct-out" role="status" aria-live="polite"></p></div>
+        </form>
+        <div class="pq-done" id="ct-done" hidden tabindex="-1">
+          <h2>Thank you, your message has been sent.</h2>
+          <p>We'll reply within five working days.</p>
+          <a class="btn btn-p" href="/">Back to homepage</a>
+        </div>
+        <aside class="ct-side" aria-label="Contact details">
+          <h2>Other ways to reach us</h2>
+          <dl>
+            <dt>Email</dt><dd>{contact.email}</dd>
+            <dt>Phone</dt><dd>{contact.phone}</dd>
+            <dt>Office</dt><dd>Access:Hull{contact.address.map((l) => <><br />{l}</>)}</dd>
+            <dt>Opening hours</dt><dd>{contact.hours}</dd>
+          </dl>
+          <p>Want to work with us? <a href="/partner/">Fill in the partner questionnaire</a>.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline src="/js/forms.js"></script>
+  <script slot="scripts" is:inline src="/js/contact.js"></script>
+</Base>

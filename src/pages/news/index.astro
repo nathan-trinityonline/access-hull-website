@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+const posts = await getPosts();
+// Card data for the topic filter in public/js/news.js
+const data = posts.map((p) => ({ href: p.href, title: p.data.title, dek: p.data.dek, cat: p.data.category, date: formatDate(p.data.date), mins: p.mins, i: p.i }));
+---
+<Base title="News and guides" description="Practical guides to getting online for less, staying safe, and what the data tells us about digital inclusion in Hull.">
+  <section class="st-hero" aria-labelledby="bl-h">
+    <div class="ah-in">
+      <p class="ah-eyebrow">News &amp; guides</p>
+      <h1 id="bl-h">News and guides</h1>
+      <p class="lead">Practical guides to getting online for less, staying safe, and what the data tells us about digital inclusion in Hull.</p>
+    </div>
+  </section>
+  <section class="ah-sec bl-sec" aria-label="Articles">
+    <div class="ah-in">
+      <div class="bl-bar"><div class="fh-chips" id="bl-cats" role="group" aria-label="Filter by topic"></div></div>
+      <div id="bl-feat">{posts[0] && <PostCard post={posts[0]} feat />}</div>
+      <div class="bl-grid" id="bl-grid">{posts.slice(1).map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+  <script slot="scripts" is:inline type="application/json" id="post-data" set:html={JSON.stringify(data)}></script>
+  <script slot="scripts" is:inline src="/js/news.js"></script>
+</Base>

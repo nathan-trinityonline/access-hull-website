@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import wards from '../data/wards.json';
+---
+<Base title="Partner questionnaire" description="Become an Access:Hull partner. Host drop-in digital help, hand out free SIMs, donate devices or train Digital Champions. Tell us about your organisation in five short steps.">
+
+  <section class="ah-sec" aria-labelledby="pq-h">
+    <div class="ah-in narrow">
+      <div class="sec-head">
+        <p class="ah-eyebrow">Become a partner</p>
+        <h1 id="pq-h">Partner questionnaire</h1>
+        <p>Tell us about your organisation and how you'd like to get involved. We'll be in touch within ten working days.</p>
+      </div>
+
+      <form class="pq" id="pq" name="partner" method="post" action="/api/form.php" novalidate>
+          <input type="hidden" name="form-name" value="partner">
+          <p class="hp" hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="steps" aria-hidden="true">
+          <div class="steps-bar"><i id="pq-bar"></i></div>
+          <ol class="steps-list" id="pq-steps">
+            <li>Organisation</li><li>Involvement</li><li>Who you support</li><li>Contact</li><li>Review</li>
+          </ol>
+        </div>
+        <p class="steps-sr" id="pq-stepinfo" aria-live="polite"></p>
+
+        <fieldset class="step" data-step="0">
+          <legend>About your organisation</legend>
+          <div class="row2">
+            <label for="pq-org">Organisation name<input id="pq-org" name="org" autocomplete="organization" required></label>
+            <label for="pq-type">Type of organisation
+              <select id="pq-type" name="type" required>
+                <option value="">Choose one</option>
+                <option>Community or voluntary group</option><option>Charity</option><option>Housing provider</option>
+                <option>School, college or university</option><option>Health or care provider</option><option>Faith group</option>
+                <option>Business</option><option>Public sector</option><option>Other</option>
+              </select>
+            </label>
+          </div>
+          <label for="pq-web">Website (optional)<input id="pq-web" name="web" type="url" placeholder="https://"></label>
+          <div class="grp" role="group" aria-labelledby="pq-wards-l">
+            <span class="gl" id="pq-wards-l">Which areas do you work in? (optional)</span>
+            <div class="chips" id="pq-wards">{["City-wide", ...wards].map((n, i) => <label class="chip-c"><input type="checkbox" name="wards" value={n} id={`pq-w${i}`} />{n}</label>)}</div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="1" hidden>
+          <legend>How you'd like to get involved</legend>
+          <div class="grp" role="group" aria-labelledby="pq-inv-l">
+            <span class="gl" id="pq-inv-l">Choose all that apply</span>
+            <div class="checks" id="pq-inv">
+              <label><input type="checkbox" name="involve" value="Host drop-in digital help"> Host drop-in digital help</label>
+              <label><input type="checkbox" name="involve" value="Hand out free SIMs and data"> Hand out free SIMs and data</label>
+              <label><input type="checkbox" name="involve" value="Donate laptops, tablets or phones"> Donate laptops, tablets or phones</label>
+              <label><input type="checkbox" name="involve" value="Train staff as Digital Champions"> Train staff as Digital Champions</label>
+              <label><input type="checkbox" name="involve" value="Refer residents who need help"> Refer residents who need help</label>
+              <label><input type="checkbox" name="involve" value="Fund or sponsor activity"> Fund or sponsor activity</label>
+              <label><input type="checkbox" name="involve" value="Share data or research"> Share data or research</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="2" hidden>
+          <legend>Who you support</legend>
+          <div class="grp" role="group" aria-labelledby="pq-who-l">
+            <span class="gl" id="pq-who-l">Groups you work with most (optional)</span>
+            <div class="checks" id="pq-who">
+              <label><input type="checkbox" name="who" value="Older people"> Older people</label>
+              <label><input type="checkbox" name="who" value="Families and children"> Families and children</label>
+              <label><input type="checkbox" name="who" value="Young people"> Young people</label>
+              <label><input type="checkbox" name="who" value="Job seekers"> Job seekers</label>
+              <label><input type="checkbox" name="who" value="Disabled people"> Disabled people</label>
+              <label><input type="checkbox" name="who" value="People on low incomes"> People on low incomes</label>
+              <label><input type="checkbox" name="who" value="Refugees and ESOL learners"> Refugees and ESOL learners</label>
+              <label><input type="checkbox" name="who" value="Carers"> Carers</label>
+            </div>
+          </div>
+          <div class="row3">
+            <label for="pq-reach">Residents you reach each month
+              <select id="pq-reach" name="reach"><option value="">Choose one</option><option>Under 50</option><option>50 to 200</option><option>200 to 1,000</option><option>Over 1,000</option></select>
+            </label>
+            <label for="pq-space">Do you have a public space?
+              <select id="pq-space" name="space"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select>
+            </label>
+            <label for="pq-wifi">Is there free Wi-Fi there?
+              <select id="pq-wifi" name="wifi"><option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option></select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="3" hidden>
+          <legend>Your contact details</legend>
+          <div class="row2">
+            <label for="pq-name">Your name<input id="pq-name" name="name" autocomplete="name" required></label>
+            <label for="pq-role">Job title or role (optional)<input id="pq-role" name="role" autocomplete="organization-title"></label>
+            <label for="pq-email">Email<input id="pq-email" name="email" type="email" autocomplete="email" required></label>
+            <label for="pq-phone">Phone (optional)<input id="pq-phone" name="phone" type="tel" autocomplete="tel"></label>
+          </div>
+          <label for="pq-msg">Anything else we should know? (optional)<textarea id="pq-msg" name="msg" rows="4"></textarea></label>
+          <label class="consent"><input type="checkbox" id="pq-consent" name="consent" required> I'm happy for Access:Hull to contact me about becoming a partner.</label>
+        </fieldset>
+
+        <fieldset class="step" data-step="4" hidden>
+          <legend>Check your answers</legend>
+          <dl class="review" id="pq-review"></dl>
+        </fieldset>
+
+        <div class="pq-foot">
+          <button class="btn btn-s" type="button" id="pq-prev">Back</button>
+          <button class="btn btn-p" type="button" id="pq-next">Continue</button>
+          <button class="btn btn-p" type="submit" id="pq-submit" hidden>Send questionnaire</button>
+          <p class="pq-out" id="pq-out" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div class="pq-done" id="pq-done" hidden tabindex="-1">
+        <h2>Thank you, we've received your questionnaire.</h2>
+        <p>We'll be in touch within ten working days.</p>
+        <a class="btn btn-p" href="/#partners">Back to homepage</a>
+      </div>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline src="/js/forms.js"></script>
+  <script slot="scripts" is:inline src="/js/partner.js"></script>
+</Base>

@@ -1,0 +1,6 @@
+{
+ "email": "hello@accesshull.example",
+ "phone": "01482 000 000",
+ "address": ["Unit 1, Example House", "10 Sample Street", "Kingston upon Hull", "HU1 0XX"],
+ "hours": "Monday to Friday, 9am to 5pm"
+}

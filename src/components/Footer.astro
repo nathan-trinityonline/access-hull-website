@@ -1,0 +1,74 @@
+---
+import contact from '../data/contact.json';
+---
+<footer class="ah-foot">
+  <div class="ah-in">
+    <div class="cols">
+      <div class="fabout">
+        <img src="/assets/logo-white.png" alt="Access:Hull Digital Inclusion Programme">
+        <p>Helping every resident of Kingston upon Hull get online, stay safe and use digital services with confidence.</p>
+        <address>
+          <span><b>Email</b> {contact.email}</span>
+          <span><b>Phone</b> {contact.phone}</span>
+          <span><b>Office</b> Access:Hull, {contact.address.join(', ')}</span>
+          <span><b>Opening hours</b> {contact.hours}</span>
+        </address>
+      </div>
+      <div><h4>Get online</h4><ul><li><a href="/#help">Free and cheap mobile data</a></li><li><a href="/find-help/">Find a digital hub</a></li><li><a href="/#help">Learn digital skills</a></li><li><a href="/social-tariffs/">Social tariffs</a></li></ul></div>
+      <div><h4>Data &amp; insight</h4><ul><li><a href="/news/">News and guides</a></li><li><a href="/#data">Ward map</a></li><li><a href="/#finder-h">Check your ward</a></li><li><a href="/#data">Ward rankings</a></li></ul></div>
+      <div><h4>Work with us</h4><ul><li><a href="/partner/">Become a partner</a></li><li><a href="/donate-a-device/">Donate a device</a></li><li><a href="/contact/">Contact us</a></li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Access:Hull. All rights reserved.</span>
+      <nav aria-label="Legal"><a href="/accessibility/">Accessibility statement</a><a href="/privacy/">Privacy notice</a><a href="/cookies/">Cookies</a><a href="/terms/">Terms of use</a><button type="button" data-ck="open">Cookie settings</button></nav>
+    </div>
+  </div>
+</footer>
+<div class="ck-banner" id="ck-banner" role="region" aria-labelledby="ck-b-h" hidden>
+  <div class="ah-in ck-b-in">
+    <div class="ck-b-txt">
+      <h2 id="ck-b-h">Cookies on Access:Hull</h2>
+      <p>We use some essential cookies to make this website work. We'd also like to remember your settings, such as your postcode search, and count visits so we can improve the site. We won't do either unless you say yes.</p>
+    </div>
+    <div class="ck-b-btns">
+      <button type="button" class="ck-btn ck-yes" data-ck="accept">Accept all cookies</button>
+      <button type="button" class="ck-btn ck-yes" data-ck="reject">Reject optional cookies</button>
+      <button type="button" class="ck-link" data-ck="manage">Manage cookie settings</button>
+    </div>
+  </div>
+  <div class="ah-in ck-b-done" id="ck-b-done" hidden>
+    <p id="ck-b-done-t"></p>
+    <button type="button" class="ck-link" data-ck="hide">Hide this message</button>
+  </div>
+</div>
+
+<dialog class="ck-dlg" id="ck-dlg" aria-labelledby="ck-d-h">
+  <form method="dialog" class="ck-d-in" id="ck-form">
+    <div class="ck-d-head">
+      <h2 id="ck-d-h">Cookie settings</h2>
+      <button type="button" class="ck-x" data-ck="close" aria-label="Close cookie settings">×</button>
+    </div>
+    <p class="ck-d-intro">Choose which cookies we can use. You can change your mind at any time from the link at the bottom of every page.</p>
+    <div class="ck-cat">
+      <div class="ck-cat-h"><h3>Essential</h3><span class="ck-always">Always on</span></div>
+      <p>Needed for the website to work, for example to remember your cookie choices and to send forms securely. They don't track you.</p>
+    </div>
+    <div class="ck-cat">
+      <div class="ck-cat-h"><h3 id="ck-pref-l">Remember my settings</h3>
+        <label class="ck-sw"><input type="checkbox" id="ck-pref" role="switch" aria-labelledby="ck-pref-l" aria-describedby="ck-pref-d"><span aria-hidden="true"></span></label></div>
+      <p id="ck-pref-d">Remembers the last postcode you searched and the ward you chose, so you don't have to enter them again. Stored only on this device.</p>
+    </div>
+    <div class="ck-cat">
+      <div class="ck-cat-h"><h3 id="ck-an-l">Analytics</h3>
+        <label class="ck-sw"><input type="checkbox" id="ck-an" role="switch" aria-labelledby="ck-an-l" aria-describedby="ck-an-d"><span aria-hidden="true"></span></label></div>
+      <p id="ck-an-d">Lets us count visits and see which pages are used, without identifying you. We don't run any analytics tools yet. If we add one, it will only start for people who have said yes here.</p>
+    </div>
+    <div class="ck-d-btns">
+      <button type="button" class="ck-btn ck-yes" data-ck="save">Save my settings</button>
+      <button type="button" class="ck-btn ck-sec" data-ck="accept">Accept all</button>
+      <button type="button" class="ck-btn ck-sec" data-ck="reject">Reject optional</button>
+    </div>
+    <p class="ck-d-more">Read more in our <a href="/cookies/" data-ck="close-go">cookies policy</a>.</p>
+  </form>
+</dialog>
+<div class="ck-toast" id="ck-toast" role="status" aria-live="polite" hidden></div>

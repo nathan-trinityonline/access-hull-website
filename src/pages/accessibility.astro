@@ -1,0 +1,51 @@
+---
+import contact from '../data/contact.json';
+import Base from '../layouts/Base.astro';
+---
+<Base title="Accessibility statement" description="How accessible the Access:Hull website is, what we are doing to improve it, and how to tell us about a problem.">
+
+  <section class="ah-sec" aria-labelledby="acc-h"><div class="ah-in lg-wrap">
+    <nav class="lg-nav" aria-label="Policies"><a href="/accessibility/" aria-current="page">Accessibility statement</a><a href="/privacy/">Privacy notice</a><a href="/cookies/">Cookies</a><a href="/terms/">Terms of use</a></nav>
+    <article class="lg">
+      <p class="ah-eyebrow">Policies</p>
+      <h1 id="acc-h">Accessibility statement</h1>
+      <p class="lg-up">Last updated 2 October 2026</p>
+      <p class="lg-lead">Access:Hull exists to help everyone in Hull get online, so this website must work for everyone too. This statement covers the Access:Hull website.</p>
+
+      <h2>Using this website</h2>
+      <p>We want as many people as possible to be able to use this website. You should be able to:</p>
+      <ul>
+        <li>zoom in up to 400% without the text spilling off the screen</li>
+        <li>use the whole site with just a keyboard</li>
+        <li>use the site with a screen reader such as JAWS, NVDA or VoiceOver</li>
+        <li>use the site on a phone or tablet</li>
+        <li>use your device's dark mode and reduced-motion settings</li>
+      </ul>
+      <p>We've also tried to keep the wording simple. <a href="https://mcmw.abilitynet.org.uk/" rel="noopener">AbilityNet</a> has advice on making your device easier to use if you have a disability.</p>
+
+      <h2>How accessible this website is</h2>
+      <p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA. We know some parts are not fully accessible yet:</p>
+      <ul>
+        <li>The ward maps rely on colour shading. The same figures are in the ward ranking list next to each map, and in the details panel when you choose an area.</li>
+        <li>On a small screen, some map areas are too small to tap easily. Use the ward list instead.</li>
+        <li>Wide tables may need sideways scrolling on a phone.</li>
+      </ul>
+
+      <h2>Other formats</h2>
+      <p>If you need information on this website in another format, such as large print, easy read, audio or another language, contact us:</p>
+      <ul class="lg-contact"><li><b>Email</b> {contact.email}</li><li><b>Phone</b> {contact.phone}</li><li><b>Visit</b> {contact.address.join(', ')}</li></ul>
+      <p>We'll consider your request and reply within 10 working days.</p>
+
+      <h2>Reporting problems</h2>
+      <p>If you find a problem that isn't listed here, or think we're not meeting accessibility requirements, please <a href="/contact/">contact us</a> and choose "Feedback or a complaint".</p>
+
+      <h2>Enforcement</h2>
+      <p>If you contact us and you're not happy with our response, you can contact the <a href="https://www.equalityadvisoryservice.com/" rel="noopener">Equality Advisory and Support Service (EASS)</a>.</p>
+
+      <h2>How we tested this website</h2>
+      <p>This website was last checked on 2 October 2026 at desktop and phone screen sizes, in light and dark modes, with keyboard-only use. <span class="ph">[Add details of any independent accessibility audit]</span></p>
+      <p>We'll review this statement at least once a year and whenever we make significant changes to the site.</p>
+    </article>
+  </div></section>
+
+</Base>

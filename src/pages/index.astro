@@ -1,0 +1,222 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPosts } from '../lib/posts';
+const latest = (await getPosts()).slice(0, 3);
+---
+<Base description="Access:Hull helps every Kingston upon Hull resident get online: free SIMs and data, social tariffs, free computers and Wi-Fi, digital skills help, and ward-by-ward data on digital exclusion.">
+
+<section class="ah-hero" aria-labelledby="hero-h">
+  <svg class="hbg" viewBox="0 0 1200 640" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+    <path class="hb-slab" d="M600 640 L970 0 L1200 0 L1200 640 Z"/>
+    <path class="hb-cut k1" pathLength="1" d="M760 700 L1010 267 L1260 700"/>
+    <path class="hb-cut k2" pathLength="1" d="M890 700 L1010 492 L1130 700"/>
+    <path class="hb-ln" pathLength="1" d="M300 700 L560 250 L820 700"/>
+  </svg>
+  <div class="ah-in">
+    <div>
+      <p class="ah-eyebrow">Digital Inclusion Programme · Kingston upon Hull</p>
+      <h1 id="hero-h">Every Hull resident <em>online</em>, able and confident.</h1>
+      <p class="lead">Almost every home in Hull can get full fibre. What keeps people offline is cost, skills and confidence. Access:Hull helps with all three.</p>
+      <div class="ah-btns">
+        <a class="btn btn-p" href="/#help">Find help to get online</a>
+        <a class="btn btn-g" href="/#data">Explore the data</a>
+      </div>
+    </div>
+    <div class="finder" role="region" aria-labelledby="finder-h">
+      <h2 id="finder-h">How at risk is your ward?</h2>
+      <p>Pick a ward to see where it ranks among Hull's 21 wards for digital exclusion risk.</p>
+      <label for="ward-pick">Your ward</label>
+      <select id="ward-pick"></select>
+      <div class="finder-out" aria-live="polite">
+        <div><span>Digital risk</span><b id="f-dr">–</b><small>rank of 21 (1 = highest)</small></div>
+        <div><span>Deprivation</span><b id="f-imd">–</b><small>rank of 21, IMD 2025</small></div>
+        <div style="grid-column:1/-1"><small id="f-note"></small></div>
+      </div>
+      <button class="btn btn-p" type="button" id="f-go">See it on the map</button>
+    </div>
+  </div>
+</section>
+
+<section class="ah-stats" aria-label="Hull at a glance">
+  <ul class="ah-in">
+    <li><b>39%</b><span>of Hull neighbourhoods are in England's riskiest 10% for digital exclusion</span></li>
+    <li><b>36th</b><span>of 314 English councils for digital exclusion risk</span></li>
+    <li><b>63.8%</b><span>of Census 2021 returns made online, against 88.9% nationally</span></li>
+    <li><b>14%</b><span>of pupils aged 8–16 had no device at home (2021)</span></li>
+    <li><b>99%+</b><span>of homes can already get full fibre broadband</span></li>
+  </ul>
+</section>
+
+<section class="ah-sec" id="help" aria-labelledby="help-h">
+  <div class="ah-in">
+    <div class="sec-head">
+      <p class="ah-eyebrow">For residents</p>
+      <h2 id="help-h">How can we help you get online?</h2>
+      <p>Free support for anyone in Hull.</p>
+    </div>
+    <div class="tiles">
+      <a class="tile" href="/social-tariffs/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M10.5 18.5h3"/></svg>
+        <h3>Free and cheap mobile data</h3>
+        <p>Free SIMs, or phone deals from £10 a month if you get benefits.</p>
+        <span class="go">See your options</span>
+      </a>
+      <a class="tile" href="/#hubs">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5h16"/><path d="M6 19.5V8l6-4 6 4v11.5"/><path d="M10 19.5v-5h4v5"/></svg>
+        <h3>Find a digital hub</h3>
+        <p>Drop in to a library or community hub near you.</p>
+        <span class="go">Support near you</span>
+      </a>
+      <a class="tile" href="/#hubs">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 3.5z"/><path d="M8 9h8M8 12h5"/></svg>
+        <h3>Learn digital skills</h3>
+        <p>Friendly help with the basics, online forms, the NHS App and staying safe from scams.</p>
+        <span class="go">Skills support</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="ah-sec" id="data" aria-labelledby="data-h">
+  <div class="ah-in">
+    <div class="sec-head">
+      <p class="ah-eyebrow">Data &amp; insight · 21 wards · 166 neighbourhoods</p>
+      <h2 id="data-h">Where digital poverty risk is highest in Hull</h2>
+      <p>Darker areas are more at risk of being left offline. Tap any area or ward for its figures.</p>
+    </div>
+<div class="wrap">
+  <div class="m-head">
+    <p class="eyebrow">Kingston upon Hull · 21 wards · 166 neighbourhoods</p>
+    <h1>Where digital poverty risk is highest in Hull</h1>
+    <p class="dek">Two measures, one map. Switch between ward deprivation and a direct digital exclusion risk score for each neighbourhood. Hover or tap any area for details.</p>
+  </div>
+
+  
+
+  
+
+  <div class="grid">
+    <section class="panel mapcard" aria-label="Map">
+      <div class="switch" role="group" aria-label="Map view">
+        <button type="button" id="v-imd" aria-pressed="false">Deprivation by ward</button>
+        <button type="button" id="v-deri" aria-pressed="true">Digital exclusion risk by neighbourhood</button>
+      </div>
+      <p class="viewnote" id="viewnote"></p>
+      <div class="legend"><span class="lt" id="lt"></span><div class="scale" id="scale"></div><span class="ends" id="ends"></span></div>
+      <svg class="map" id="map" role="group" aria-label="Map of Hull"></svg>
+      <div class="detail" id="detail" aria-live="polite"></div>
+    </section>
+
+    <section class="panel listcard" aria-label="Wards ranked">
+      <p class="lh" id="lh"></p>
+      <p class="sub">Rank 1 = highest risk. Tap a ward to see it on the map.</p>
+      <div class="lrow lhead" aria-hidden="true"><span></span><span></span><span>Ward</span><span>Depriv.</span><span>Digital</span></div>
+      <ol class="rank" id="list"></ol>
+    </section>
+  </div>
+
+  
+
+  
+
+  <p class="m-src">Sources: Hull City Council IMD 2025 briefing; GMCA Digital Exclusion Risk Index v1.5; ONS Census 2021; Ofcom Connected Nations 2025.</p>
+</div>
+  </div>
+</section>
+
+<section class="ah-sec alt" id="hubs" aria-labelledby="hubs-h">
+  <div class="ah-in">
+    <div class="sec-head">
+      <p class="ah-eyebrow">Support near you</p>
+      <h2 id="hubs-h">Get help in your community</h2>
+      <p>Free computers, Wi-Fi, free SIMs and friendly help are available across Hull. Here are some of the main places. Search by postcode to find more near you.</p>
+    </div>
+    <form class="pc-mini" id="pc-mini" action="/find-help/" method="get" role="search" aria-label="Find help near you">
+      <label for="pc-mini-in">Enter your postcode</label>
+      <div class="pc-row">
+        <input id="pc-mini-in" name="pc" autocomplete="postal-code" placeholder="For example HU7 4EF" inputmode="text">
+        <button class="btn btn-p" type="submit">Find help near me</button>
+      </div>
+    </form>
+    <div class="hubs">
+      <article class="hub">
+        <span class="pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+        <span class="wd">HU4 · West Hull</span>
+        <h3>West Hull Community Hub</h3>
+        <p>Free mobile data and SIMs through the National Databank, plus friendly drop-in help. Many visitors are older residents.</p>
+        <dl class="hub-d"><dt>Address</dt><dd>Johnny Whiteley Park, North Road, Hull HU4 6LQ</dd><dt>Open</dt><dd>Thursday 10am–3pm, Friday 10am–12:30pm</dd></dl>
+        <div class="offer"><span>Free SIMs</span><span>Mobile data</span><span>Drop-in help</span></div>
+      </article>
+      <article class="hub">
+        <span class="pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+        <span class="wd">HU1 · City centre</span>
+        <h3>Hull Central Library</h3>
+        <p>Free computers and Wi-Fi, printing, and staff who can help you get started online.</p>
+        <dl class="hub-d"><dt>Address</dt><dd>Albion Street, Hull HU1 3TF</dd><dt>Open</dt><dd>Mon–Tue 9:30am–5pm, Wed 1pm–7:30pm, Thu 9:30am–7:30pm, Fri 9:30am–1pm, Sat 10am–4pm</dd><dt>Phone</dt><dd>01482 210 000</dd></dl>
+        <div class="offer"><span>Free computers</span><span>Free Wi-Fi</span><span>Printing</span></div>
+      </article>
+      <article class="hub">
+        <span class="pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+        <span class="wd">HU7 · Bransholme</span>
+        <h3>Bransholme Library</h3>
+        <p>Library and council community hub with free computers, Wi-Fi, and help with council services online.</p>
+        <dl class="hub-d"><dt>Address</dt><dd>Goodhart Road, Hull HU7 4EF</dd><dt>Hub open</dt><dd>Mon, Tue and Thu 9:30am–12:30pm and 1:30pm–5pm</dd></dl>
+        <div class="offer"><span>Free computers</span><span>Free Wi-Fi</span><span>Council services</span></div>
+      </article>
+      <article class="hub">
+        <span class="pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+        <span class="wd">HU7 · North Bransholme</span>
+        <h3>North Bransholme Community Shop</h3>
+        <p>Council community hub on the estate. Drop in for help with council services, forms and getting online.</p>
+        <dl class="hub-d"><dt>Address</dt><dd>Lothian Way, Hull HU7 5DD</dd><dt>Hub open</dt><dd>Monday 9am–1pm</dd></dl>
+        <div class="offer"><span>Council services</span><span>Drop-in help</span></div>
+      </article>
+    </div>
+    <div class="hubs-more">
+      <p><b>More than 35 places</b> across Hull offer free computers, Wi-Fi or digital help.</p>
+      <a class="btn btn-p" href="/find-help/">See all places near you</a>
+    </div>
+    <div class="helpline">
+      <div>
+        <h3>On benefits and paying too much for your phone?</h3>
+        <p>O2, SMARTY (Three) and VOXI (Vodafone) all offer social tariffs from £10 to £12 a month. Ordinary SIM-only deals are sometimes cheaper, so compare both.</p>
+      </div>
+      <a class="btn btn-p" href="/social-tariffs/">See all social tariffs</a>
+    </div>
+  </div>
+</section>
+
+<section class="ah-sec alt" id="latest" aria-labelledby="latest-h">
+  <div class="ah-in">
+    <div class="bl-relhead">
+      <div class="sec-head" style="margin-bottom:0"><p class="ah-eyebrow">News &amp; guides</p><h2 id="latest-h">Latest from Access:Hull</h2></div>
+      <a class="btn btn-s" href="/news/">See all news and guides</a>
+    </div>
+    <div class="bl-grid" id="home-latest">{latest.map((p) => <PostCard post={p} />)}</div>
+  </div>
+</section>
+
+<section class="ah-sec" id="partners" aria-labelledby="part-h">
+  <div class="ah-in">
+    <div class="pcta">
+      <div class="pcta-txt">
+        <p class="ah-eyebrow">Become a partner</p>
+        <h2 id="part-h">Help close Hull's digital divide</h2>
+        <p>Community groups, housing providers, schools, health partners and businesses all have a part to play. Host drop-ins, hand out free SIMs or donate devices.</p>
+        <div class="ah-btns"><a class="btn btn-p" href="/partner/">Start the partner questionnaire</a><span class="pcta-t">Four short steps · about 5 minutes</span></div>
+      </div>
+      <ul class="pcta-list">
+        <li><b>Host</b><span>drop-in digital help in your space</span></li>
+        <li><b>Share</b><span>free SIMs and data with residents</span></li>
+        <li><b>Donate</b><span><a class="pcta-a" href="/donate-a-device/">laptops, tablets and phones</a></span></li>
+        <li><b>Train</b><span>your staff as Digital Champions</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+  <script slot="scripts" is:inline src="/js/ward-data.js"></script>
+  <script slot="scripts" is:inline src="/js/ward-map.js"></script>
+  <script slot="scripts" is:inline src="/js/home.js"></script>
+</Base>

@@ -1,0 +1,75 @@
+# Decap CMS: the content editor at /admin/
+# Editors sign in, edit, and press Publish. Decap saves the change to the GitHub
+# repository, and GitHub Actions rebuilds the site and uploads it to SiteGround (a few minutes).
+# Sign-in goes through /api/auth.php on this site (set in admin/index.html).
+backend:
+  name: github
+  repo: nathan-trinityonline/access-hull-website
+  branch: main
+
+# Drafts, "In review" and "Ready" columns before anything goes live
+publish_mode: editorial_workflow
+
+media_folder: public/uploads
+public_folder: /uploads
+site_url: https://accesshull.example
+logo_url: /assets/logo.png
+locale: en
+
+collections:
+  - name: news
+    label: News and guides
+    label_singular: Article
+    description: Articles appear on the News page, the homepage and in search results. The file name becomes the web address.
+    folder: src/content/news
+    create: true
+    slug: "{{slug}}"
+    preview_path: "news/{{slug}}/"
+    sortable_fields: [date, title, category]
+    summary: "{{title}} ({{date}})"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: dek, label: Summary, widget: text, hint: "One or two sentences. Shown on article cards and in Google results." }
+      - { name: category, label: Topic, widget: select, options: ["Guides", "Data & insight"] }
+      - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "D MMMM YYYY", time_format: false }
+      - name: cta
+        label: Button at the side of the article
+        widget: object
+        fields:
+          - { name: label, label: Button text, widget: string, default: "Find help near you" }
+          - { name: href, label: Link, widget: select, default: "/find-help/", options: [ { label: "Find help near you", value: "/find-help/" }, { label: "Social tariffs", value: "/social-tariffs/" }, { label: "Donate a device", value: "/donate-a-device/" }, { label: "Ward map", value: "/#data" }, { label: "Partner questionnaire", value: "/partner/" }, { label: "Contact us", value: "/contact/" } ] }
+      - { name: draft, label: Hide from the site, widget: boolean, default: false, required: false }
+      - { name: body, label: Article, widget: markdown }
+
+  - name: settings
+    label: Site details
+    files:
+      - name: contact
+        label: Contact details
+        file: src/data/contact.json
+        description: Used in the footer, the Contact page, the Donate page and the policy pages.
+        fields:
+          - { name: email, label: Email, widget: string }
+          - { name: phone, label: Phone, widget: string }
+          - { name: address, label: Office address, widget: list, field: { name: line, label: Line, widget: string } }
+          - { name: hours, label: Opening hours, widget: string }
+      - name: venues
+        label: Places to get help (Find help page)
+        file: src/data/venues.json
+        fields:
+          - name: venues
+            label: Places
+            label_singular: Place
+            widget: list
+            summary: "{{fields.name}} · {{fields.postcode}}"
+            collapsed: true
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: type, label: Type, widget: select, options: ["Library", "Council hub", "Community group", "Jobcentre"] }
+              - { name: address, label: Street address, widget: string }
+              - { name: postcode, label: Postcode, widget: string }
+              - { name: area, label: Area, widget: string }
+              - { name: hours, label: Opening times, widget: string, required: false }
+              - { name: phone, label: Phone, widget: string, required: false }
+              - { name: services, label: What they offer, widget: select, multiple: true, options: ["Free computers", "Free Wi-Fi", "Free SIMs", "Mobile data", "Digital help", "Council services", "Printing", "Job search help"] }
+              - { name: link, label: Website, widget: string, required: false }

@@ -1,0 +1,63 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import Thumb from '../../components/Thumb.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }));
+}
+const { post, posts } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+const related = posts.filter((x) => x.id !== post.id).sort((a, b) => Number(b.data.category === post.data.category) - Number(a.data.category === post.data.category)).slice(0, 3);
+const url = new URL(post.href, Astro.site).href;
+const enc = encodeURIComponent(url), t = encodeURIComponent(post.data.title);
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Article', headline: post.data.title, description: post.data.dek,
+  datePublished: post.data.date.toISOString(), author: { '@type': 'Organization', name: 'Access:Hull' }, mainEntityOfPage: url,
+};
+---
+<Base title={post.data.title} description={post.data.dek} type="article" published={post.data.date}>
+<article>
+  <header class="bp-hero">
+    <div class="ah-in bp-hero-in">
+      <div class="bp-hero-txt">
+        <p class="bp-crumb"><a href="/news/">News &amp; guides</a> <span aria-hidden="true">/</span> <span id="bp-cat">{post.data.category}</span></p>
+        <h1 id="bp-title">{post.data.title}</h1>
+        <p class="bp-hdek" id="bp-dek">{post.data.dek}</p>
+        <p class="bp-hmeta" id="bp-meta">{formatDate(post.data.date)}  ·  {post.mins} min read  ·  By the Access:Hull team</p>
+      </div>
+      <div class="bp-hero-art" id="bp-hero-art"><Thumb i={post.i} /></div>
+    </div>
+  </header>
+  <div class="ah-sec bp-sec">
+    <div class="ah-in bp-grid">
+      <div class="bp-body" id="bp-body"><Content /></div>
+      <aside class="bp-side" aria-label="Article tools">
+        {toc.length > 0 && <div id="bp-toc-wrap"><h2 class="bp-sh">On this page</h2><nav class="bp-toc" id="bp-toc" aria-label="On this page">{toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}</nav></div>}
+        <div><h2 class="bp-sh">Share</h2>
+          <div class="bp-share">
+            <button type="button" class="bp-sbtn" id="bp-sh-copy" data-url={url}>Copy link</button>
+            <a class="bp-sbtn" id="bp-sh-fb" rel="noopener" href={`https://www.facebook.com/sharer/sharer.php?u=${enc}`}>Facebook</a>
+            <a class="bp-sbtn" id="bp-sh-x" rel="noopener" href={`https://twitter.com/intent/tweet?url=${enc}&text=${t}`}>X</a>
+            <a class="bp-sbtn" id="bp-sh-li" rel="noopener" href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc}`}>LinkedIn</a>
+          </div>
+          <input class="bp-url" id="bp-sh-url" readonly hidden aria-label="Link to this article">
+        </div>
+        <a class="btn btn-p bp-cta" id="bp-cta" href={post.data.cta.href}>{post.data.cta.label}</a>
+      </aside>
+    </div>
+  </div>
+  <section class="ah-sec alt bp-relsec" aria-labelledby="bp-rel-h">
+    <div class="ah-in">
+      <div class="bl-relhead"><h2 id="bp-rel-h">More news and guides</h2><a class="fh-link" href="/news/">See all</a></div>
+      <div class="bl-grid" id="bp-rel">{related.map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+</article>
+<script slot="scripts" type="application/ld+json" is:inline set:html={JSON.stringify(ld)}></script>
+<script slot="scripts" is:inline src="/js/post.js"></script>
+</Base>

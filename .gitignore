@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+
+# Secrets and local environment: never commit
+.env
+.env.*
+!.env.example
+.netlify/
+*.pem
+*.key
+
+# Server settings for the forms and editor sign-in (lives only on SiteGround)
+public/api/config.php

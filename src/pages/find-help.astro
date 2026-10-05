@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import VenueCard from '../components/VenueCard.astro';
+import venueData from '../data/venues.json';
+const venues = venueData.venues;
+const list = [...venues].sort((a, b) => a.name.localeCompare(b.name));
+---
+<Base title="Find digital help near you" description="Search by postcode for free computers, Wi-Fi, free SIMs and friendly digital help at libraries, community hubs and local groups across Hull.">
+
+  <section class="st-hero" aria-labelledby="fh-h">
+    <div class="ah-in">
+      <p class="ah-eyebrow">Support near you</p>
+      <h1 id="fh-h">Find digital help near you</h1>
+      <p class="lead">Free computers, Wi-Fi, free SIMs and friendly help with getting online, at libraries, community hubs and local groups across Hull.</p>
+      <form class="pc-big" id="fh-form" role="search" aria-label="Search by postcode">
+        <label for="fh-pc">Your postcode</label>
+        <div class="pc-row">
+          <input id="fh-pc" name="pc" autocomplete="postal-code" placeholder="For example HU7 4EF">
+          <button class="btn btn-p" type="submit">Search</button>
+        </div>
+        <p class="pc-msg" id="fh-msg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="ah-sec fh-sec" aria-labelledby="fh-res-h">
+    <div class="ah-in fh-grid">
+      <aside class="fh-filters" aria-label="Filter places">
+        <h2 class="fh-fh">What do you need?</h2>
+        <div class="fh-chips" id="fh-chips"></div>
+        <h2 class="fh-fh">Type of place</h2>
+        <div class="fh-chips" id="fh-types"></div>
+        <button type="button" class="fh-clear" id="fh-clear">Clear filters</button>
+      </aside>
+      <div class="fh-main">
+        <div class="fh-top"><h2 id="fh-res-h">All places in Hull</h2><p id="fh-count">{list.length} places</p></div>
+        <ol class="fh-list" id="fh-list">{list.map((v) => <VenueCard v={v} />)}</ol>
+        <div class="fh-empty" id="fh-empty" hidden>
+          <h3>No places match those filters</h3>
+          <p>Try removing a filter, or <a href="/contact/">contact us</a> and we'll help you find somewhere.</p>
+        </div>
+        <div class="fh-foot">
+          <p>Opening times can change, especially around bank holidays. Please call or check before you visit.</p>
+          <p>Run a group that helps people get online? <a href="/partner/">Tell us about it</a> and we'll add you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script slot="scripts" is:inline type="application/json" id="venue-data" set:html={JSON.stringify(venues)}></script>
+
+  <script slot="scripts" is:inline src="/js/find-help.js"></script>
+</Base>
