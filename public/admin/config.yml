@@ -12,7 +12,7 @@ publish_mode: editorial_workflow
 
 media_folder: public/uploads
 public_folder: /uploads
-site_url: https://accesshull.example
+site_url: https://accesshull.co.uk
 logo_url: /assets/logo.png
 locale: en
 

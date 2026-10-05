@@ -53,25 +53,29 @@ Add `draft: true` to hide it.
 
 The site is plain files plus two small PHP scripts, hosted on SiteGround. GitHub holds the code; every change to the `main` branch (including each publish from the content editor) runs `.github/workflows/deploy.yml`, which checks and builds the site and uploads `dist/` to SiteGround over SSH.
 
-One-off setup:
-1. **GitHub**: put this folder in a repository (branch `main`).
-2. **SSH key**: on your computer run `ssh-keygen -t ed25519 -f siteground -N ""`. In SiteGround Site Tools → Devs → SSH Keys Manager, import `siteground.pub`. In GitHub → Settings → Secrets and variables → Actions, add the private key as the secret `SG_SSH_KEY`, and add the variables `SG_HOST`, `SG_USER` (both shown in the SSH Keys Manager), `SG_PATH` (for example `www/yourdomain.org.uk/public_html`) and `SITE_URL` (for example `https://www.yourdomain.org.uk`).
-3. **Server settings**: on SiteGround, copy `public_html/api/config.example.php` to `public_html/api/config.php` (File Manager) and fill in the sender address, the recipients for each form and the GitHub sign-in details (below). The deploy never overwrites this file and it is never committed.
-4. **Sender address**: create the `from` mailbox in Site Tools → Email → Accounts so form emails come from your own domain.
+The SiteGround host, user, folder, domain and form recipients are set at the top of the workflow file (`env:`). The deploy also writes `api/config.php` (form recipients, sender address, editor sign-in) from those settings and the secrets below, so nothing needs editing on the server and no secret is ever committed.
+
+One-off setup in GitHub → Settings → Secrets and variables → Actions:
+1. **Secret `SG_SSH_KEY`**: the private key from SiteGround Site Tools → Devs → SSH Keys Manager (Actions → Private Key).
+2. **Secret `SG_SSH_PASSPHRASE`**: that key's password.
+3. **Secret `DECAP_GITHUB_CLIENT_SECRET`** and **variable `DECAP_GITHUB_CLIENT_ID`**: from the GitHub OAuth app (see Content editor below).
+4. **Sender address**: create the mailbox named in `MAIL_FROM` in Site Tools → Email → Accounts so form emails come from your own domain.
+
+The upload step is skipped until `SG_SSH_KEY` exists, so the build still runs and checks every change before then.
 
 `public/.htaccess` sets HTTPS, the 404 page, caching and security headers.
 
 ### Forms
 
-The contact, partner and donate-a-device forms post to `/api/form.php`, which emails them. Each form has its own recipients in `config.php`. Spam protection: a hidden honeypot field and a limit of 5 submissions per visitor every 10 minutes. Without JavaScript, visitors land on `/thank-you/`.
+The contact, partner and donate-a-device forms post to `/api/form.php`, which emails them. Each form has its own recipients (`MAIL_TO_*` in the workflow file). Spam protection: a hidden honeypot field and a limit of 5 submissions per visitor every 10 minutes. Without JavaScript, visitors land on `/thank-you/`.
 
 ## Content editor (Decap CMS)
 
 Editors use `/admin/` to write news articles, update contact details and manage the Find help places. Publishing saves to GitHub, and the site updates a few minutes later once the deploy has run.
 
 To switch it on:
-1. In `public/admin/config.yml`, set `repo:` to the GitHub repository (for example `your-org/access-hull-website`).
-2. In GitHub → Settings → Developer settings → OAuth Apps, create an app with homepage `https://YOUR-DOMAIN` and callback URL `https://YOUR-DOMAIN/api/auth.php`. Put its client ID and a client secret in `config.php` on the server.
+1. In GitHub → Settings → Developer settings → OAuth Apps, create an app with homepage `https://accesshull.co.uk` and callback URL `https://accesshull.co.uk/api/auth.php`.
+2. Save its client ID as the Actions variable `DECAP_GITHUB_CLIENT_ID` and a client secret as the Actions secret `DECAP_GITHUB_CLIENT_SECRET`, then re-run the deploy.
 3. Give each editor a GitHub account with write access to the repository.
 
 `publish_mode: editorial_workflow` gives editors Draft, In review and Ready columns before anything goes live. Remove that line to publish straight away.
@@ -84,7 +88,7 @@ To switch it on:
 
 Search the code for these placeholders and replace them:
 
-- Email `hello@accesshull.example`, phone `01482 000 000`, address `Unit 1, Example House, 10 Sample Street, Kingston upon Hull, HU1 0XX` (edit `src/data/contact.json` or use the content editor)
+- Phone `01482 000 000`, address `Unit 1, Example House, 10 Sample Street, Kingston upon Hull, HU1 0XX` (edit `src/data/contact.json` or use the content editor)
 - Privacy notice and terms: `[legal name of the organisation]`, `[registered address]`, `[ICO registration number]`, `[name or role]`
 - Accessibility statement: `[Add details of any independent accessibility audit]`
 - Donate a device: confirm age limits, the 10+ device collection threshold and data-wipe certificates

@@ -1,12 +1,11 @@
 # Builds the site and uploads it to SiteGround whenever main changes,
-# including every time someone publishes in the content editor.
+# including every time someone publishes in the content editor (/admin/).
 #
-# Set these in GitHub: Settings > Secrets and variables > Actions
-#   Secrets:   SG_SSH_KEY  (private key; its public half imported in SiteGround Site Tools > Devs > SSH Keys Manager)
-#   Variables: SG_HOST     (e.g. ssh.yourdomain.org.uk)
-#              SG_USER     (SSH username from SiteGround)
-#              SG_PATH     (e.g. www/yourdomain.org.uk/public_html)
-#              SITE_URL    (e.g. https://www.yourdomain.org.uk)
+# Secrets to add in GitHub (Settings > Secrets and variables > Actions > New repository secret):
+#   SG_SSH_KEY                  the private key from SiteGround Site Tools > Devs > SSH Keys Manager
+#   SG_SSH_PASSPHRASE           that key's password
+#   DECAP_GITHUB_CLIENT_SECRET  the client secret of the GitHub OAuth app used to sign in to /admin/
+# The upload step is skipped until SG_SSH_KEY exists.
 name: Build and deploy to SiteGround
 
 on:
@@ -18,9 +17,25 @@ concurrency:
   group: deploy
   cancel-in-progress: false
 
+env:
+  SITE_URL: https://accesshull.co.uk
+  SG_HOST: gukm1084.siteground.biz
+  SG_PORT: "18765"
+  SG_USER: u692-zbe2qof7apqy
+  SG_PATH: www/accesshull.co.uk/public_html
+  # Form emails: sender, and who receives each form
+  MAIL_FROM: website@accesshull.co.uk
+  MAIL_TO_CONTACT: info@accesshull.org.uk
+  MAIL_TO_PARTNER: partners@accesshull.org.uk
+  MAIL_TO_DONATE: donate@accesshull.org.uk
+  # Client ID of the GitHub OAuth app for /admin/ sign-in (not secret)
+  DECAP_GITHUB_CLIENT_ID: ${{ vars.DECAP_GITHUB_CLIENT_ID }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      HAS_SSH_KEY: ${{ secrets.SG_SSH_KEY != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -32,25 +47,42 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+
+      - name: Write server settings (api/config.php)
         env:
-          SITE_URL: ${{ vars.SITE_URL }}
+          DECAP_GITHUB_CLIENT_SECRET: ${{ secrets.DECAP_GITHUB_CLIENT_SECRET }}
+        run: |
+          php -r '
+            $c = [
+              "from" => getenv("MAIL_FROM"),
+              "from_name" => "Access:Hull website",
+              "forms" => [
+                "contact" => ["to" => [getenv("MAIL_TO_CONTACT")], "subject" => "New message from the contact form"],
+                "partner" => ["to" => [getenv("MAIL_TO_PARTNER")], "subject" => "New partner questionnaire"],
+                "donate-a-device" => ["to" => [getenv("MAIL_TO_DONATE")], "subject" => "New device donation offer"],
+              ],
+              "github_client_id" => (string)getenv("DECAP_GITHUB_CLIENT_ID"),
+              "github_client_secret" => (string)getenv("DECAP_GITHUB_CLIENT_SECRET"),
+            ];
+            echo "<?php\n// Written by the deploy workflow. Edit .github/workflows/deploy.yml instead.\nreturn " . var_export($c, true) . ";\n";
+          ' > dist/api/config.php
+          php -l dist/api/config.php
 
       - name: Upload to SiteGround
-        # Skipped until the SiteGround connection details are added (see the comments at the top)
-        if: ${{ vars.SG_HOST != '' }}
+        if: env.HAS_SSH_KEY == 'true'
         env:
           SG_SSH_KEY: ${{ secrets.SG_SSH_KEY }}
-          SG_HOST: ${{ vars.SG_HOST }}
-          SG_USER: ${{ vars.SG_USER }}
-          SG_PATH: ${{ vars.SG_PATH }}
+          SG_SSH_PASSPHRASE: ${{ secrets.SG_SSH_PASSPHRASE }}
         run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "$SG_SSH_KEY" > ~/.ssh/siteground
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SG_SSH_KEY" | tr -d '\r' > ~/.ssh/siteground
           chmod 600 ~/.ssh/siteground
-          ssh-keyscan -p 18765 "$SG_HOST" >> ~/.ssh/known_hosts
-          # --delete removes files the site no longer has, but never the server's own
-          # settings (api/config.php) or SiteGround's .well-known folder.
-          rsync -az --delete \
-            --exclude 'api/config.php' --exclude '.well-known/' \
-            -e "ssh -p 18765 -i ~/.ssh/siteground" \
+          ssh-keyscan -p "$SG_PORT" "$SG_HOST" >> ~/.ssh/known_hosts
+          # Unlock the key with its password, if it has one
+          eval "$(ssh-agent -s)"
+          printf '#!/bin/sh\necho "$SG_SSH_PASSPHRASE"\n' > ~/.ssh/askpass && chmod 700 ~/.ssh/askpass
+          SSH_ASKPASS=~/.ssh/askpass SSH_ASKPASS_REQUIRE=force DISPLAY=none ssh-add ~/.ssh/siteground < /dev/null
+          # --delete removes files the site no longer has, but never SiteGround's .well-known folder
+          rsync -az --delete --exclude '.well-known/' \
+            -e "ssh -p $SG_PORT" \
             dist/ "$SG_USER@$SG_HOST:$SG_PATH/"
