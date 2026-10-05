@@ -1,9 +1,18 @@
 # Rebuilds a pasted private key with proper line breaks (pasting on a phone often joins the lines).
 import re, sys
 k = sys.stdin.read().replace('\r', '').replace('\\n', '\n').strip().strip('"\'')
+# Phones can turn the dashes in -----BEGIN into long dashes
+k = re.sub(r'[\u2010-\u2015\u2212-]{2,}', '-----', k)
 m = re.search(r'-----BEGIN ([A-Z ]+)-----(.*?)-----END \1-----', k, re.S)
 if not m:
-    sys.exit('SG_SSH_KEY does not contain a -----BEGIN ... PRIVATE KEY----- block')
+    # Describe what was pasted without printing any of it
+    hints = [f'{len(k.splitlines())} lines', f'{len(k)} characters']
+    for word in ('BEGIN', 'PRIVATE KEY', 'END', 'ssh-rsa', 'ssh-ed25519', 'PuTTY'):
+        if word in k:
+            hints.append(f'contains "{word}"')
+    if any(ord(c) > 127 for c in k):
+        hints.append('contains non-ASCII characters')
+    sys.exit('SG_SSH_KEY does not contain a -----BEGIN ... PRIVATE KEY----- block (' + ', '.join(hints) + ')')
 kind, body = m.group(1), m.group(2)
 head = []
 for name in ('Proc-Type', 'DEK-Info'):
