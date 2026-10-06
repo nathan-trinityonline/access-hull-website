@@ -89,8 +89,8 @@ To switch it on:
 Search the code for these placeholders and replace them:
 
 - Phone and office address: hidden for now (empty in `src/data/contact.json`). Fill them in with the content editor to show them again
-- Privacy notice: placeholders removed for now; add the legal name, registered address, ICO registration number and data protection contact when known. Terms of use: `[legal name of the organisation]`
-- Accessibility statement: `[Add details of any independent accessibility audit]`
+- Privacy notice: placeholders removed for now; add the legal name, registered address, ICO registration number and data protection contact when known. Terms of use: add the legal name and registered address when known
+- Accessibility statement: add details of any independent accessibility audit when one is done
 - Donate a device: confirm age limits, the 10+ device collection threshold and data-wipe certificates
 - Real photography to replace the placeholder article artwork (`src/components/Thumb.astro`)
 - An analytics tool, if wanted: add it in the `ahConsent.on('analytics', …)` hook in `public/js/site.js` so it only runs after consent
