@@ -10,7 +10,7 @@
   "tariff": ["I'm on one", "I've heard of them", "No, never"],
   "benefits": ["Yes", "No", "Prefer not to say"],
   "confidence": ["1", "2", "3", "4", "5"],
-  "helpHow": ["At a hub near me", "By phone", "At home", "Online"],
+  "helpHow": ["At a hub near me", "By phone", "Online"],
   "bestTime": ["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekends"]
  },
  "multi": {
