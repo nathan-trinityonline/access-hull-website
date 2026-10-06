@@ -120,10 +120,12 @@ import Base from '../layouts/Base.astro';
           <div class="grp" role="radiogroup" aria-labelledby="dd-how-l">
             <span class="gl" id="dd-how-l">How would you like to hand them over?</span>
             <div class="seg">
-              <label><input type="radio" name="dd-how" value="Drop off at the Access:Hull office" checked> I'll drop them off</label>
+              <label><input type="radio" name="dd-how" value="Drop off" checked> I'll drop them off</label>
               <label><input type="radio" name="dd-how" value="Collection"> Please collect them</label>
             </div>
-            <p class="hint" id="dd-how-hint">{`Drop off at ${contact.address[0]}, ${contact.address[1]}, ${contact.address[contact.address.length - 1]}, ${contact.hours}.`}</p>
+            <p class="hint" id="dd-how-hint">{contact.address.length > 0
+              ? `Drop off at ${contact.address[0]}, ${contact.address[1]}, ${contact.address[contact.address.length - 1]}, ${contact.hours}.`
+              : "We'll email you to arrange where and when to drop them off."}</p>
           </div>
           <label for="dd-addr" id="dd-addr-l" hidden>Collection address<textarea id="dd-addr" name="collection_address" rows="3" autocomplete="street-address"></textarea></label>
           <label for="dd-when">When suits you? (optional)<input id="dd-when" name="timing" placeholder="For example: weekday mornings from next week"></label>

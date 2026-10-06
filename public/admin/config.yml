@@ -50,8 +50,8 @@ collections:
         description: Used in the footer, the Contact page, the Donate page and the policy pages.
         fields:
           - { name: email, label: Email, widget: string }
-          - { name: phone, label: Phone, widget: string }
-          - { name: address, label: Office address, widget: list, field: { name: line, label: Line, widget: string } }
+          - { name: phone, label: Phone, widget: string, required: false, hint: "Leave empty to hide the phone number on the site" }
+          - { name: address, label: Office address, widget: list, required: false, hint: "Leave empty to hide the office address on the site", field: { name: line, label: Line, widget: string } }
           - { name: hours, label: Opening hours, widget: string }
       - name: social
         label: Social media links

@@ -2,7 +2,7 @@
 // Forms post to /api/form.php, which emails each form to the addresses set in api/config.php on the server.
 window.ahForms=(function(){
   const b=document.body.dataset;
-  const fail=`We couldn't send this. Please try again, or email ${b.email} or call ${b.phone}.`;
+  const fail=`We couldn't send this. Please try again, or email ${b.email}`+(b.phone?` or call ${b.phone}.`:'.');
   const labelOf=x=>(x.closest('label')?x.closest('label').firstChild.textContent.trim().replace(/\s*\(optional\)/,''):'this').toLowerCase();
   function firstBad(scope){
     return [...scope.querySelectorAll('[required]')].find(x=>x.type==='checkbox'?!x.checked:!x.value.trim()||(x.type==='email'&&!x.checkValidity()));

@@ -41,8 +41,8 @@ import Social from '../components/Social.astro';
           <h2>Other ways to reach us</h2>
           <dl>
             <dt>Email</dt><dd>{contact.email}</dd>
-            <dt>Phone</dt><dd>{contact.phone}</dd>
-            <dt>Office</dt><dd>Access:Hull{contact.address.map((l) => <><br />{l}</>)}</dd>
+            {contact.phone && <><dt>Phone</dt><dd>{contact.phone}</dd></>}
+            {contact.address.length > 0 && <><dt>Office</dt><dd>Access:Hull{contact.address.map((l) => <><br />{l}</>)}</dd></>}
             <dt>Opening hours</dt><dd>{contact.hours}</dd>
           </dl>
           <div class="ct-follow"><h3>Follow us</h3><p>News, events and help sessions near you.</p><Social class="soc-lab" labels /></div>

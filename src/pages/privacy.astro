@@ -14,7 +14,7 @@ import Base from '../layouts/Base.astro';
 
       <h2>Who we are</h2>
       <p>Access:Hull Digital Inclusion Programme is run by <span class="ph">[legal name of the organisation]</span>, <span class="ph">[registered address]</span>. We are the data controller for the information you give us. Our registration number with the Information Commissioner's Office (ICO) is <span class="ph">[ICO registration number]</span>.</p>
-      <p>Our data protection contact is <span class="ph">[name or role]</span>, {contact.email}, {contact.phone}.</p>
+      <p>Our data protection contact is <span class="ph">[name or role]</span>, {contact.email}{contact.phone && `, ${contact.phone}`}.</p>
 
       <h2>What we collect</h2>
       <div class="tscroll"><table class="lg-t">

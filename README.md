@@ -88,7 +88,7 @@ To switch it on:
 
 Search the code for these placeholders and replace them:
 
-- Phone `01482 000 000`, address `Unit 1, Example House, 10 Sample Street, Kingston upon Hull, HU1 0XX` (edit `src/data/contact.json` or use the content editor)
+- Phone and office address: hidden for now (empty in `src/data/contact.json`). Fill them in with the content editor to show them again
 - Privacy notice and terms: `[legal name of the organisation]`, `[registered address]`, `[ICO registration number]`, `[name or role]`
 - Accessibility statement: `[Add details of any independent accessibility audit]`
 - Donate a device: confirm age limits, the 10+ device collection threshold and data-wipe certificates

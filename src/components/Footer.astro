@@ -10,8 +10,8 @@ import contact from '../data/contact.json';
         <p>Helping every resident of Kingston upon Hull get online, stay safe and use digital services with confidence.</p>
         <address>
           <span><b>Email</b> {contact.email}</span>
-          <span><b>Phone</b> {contact.phone}</span>
-          <span><b>Office</b> Access:Hull, {contact.address.join(', ')}</span>
+          {contact.phone && <span><b>Phone</b> {contact.phone}</span>}
+          {contact.address.length > 0 && <span><b>Office</b> Access:Hull, {contact.address.join(', ')}</span>}
           <span><b>Opening hours</b> {contact.hours}</span>
         </address>
         <div class="soc-foot"><h4>Follow us</h4><Social class="soc-dark" /></div>

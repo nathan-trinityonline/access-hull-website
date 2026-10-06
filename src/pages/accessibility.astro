@@ -33,7 +33,7 @@ import Base from '../layouts/Base.astro';
 
       <h2>Other formats</h2>
       <p>If you need information on this website in another format, such as large print, easy read, audio or another language, contact us:</p>
-      <ul class="lg-contact"><li><b>Email</b> {contact.email}</li><li><b>Phone</b> {contact.phone}</li><li><b>Visit</b> {contact.address.join(', ')}</li></ul>
+      <ul class="lg-contact"><li><b>Email</b> {contact.email}</li>{contact.phone && <li><b>Phone</b> {contact.phone}</li>}{contact.address.length > 0 && <li><b>Visit</b> {contact.address.join(', ')}</li>}</ul>
       <p>We'll consider your request and reply within 10 working days.</p>
 
       <h2>Reporting problems</h2>

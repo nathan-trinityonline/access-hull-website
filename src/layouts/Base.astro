@@ -29,7 +29,7 @@ const org = {
   url: new URL('/', Astro.site).href,
   logo: new URL('/assets/logo.png', Astro.site).href,
   email: contact.email,
-  telephone: contact.phone,
+  telephone: contact.phone || undefined,
   areaServed: 'Kingston upon Hull',
 };
 ---
@@ -61,7 +61,7 @@ const org = {
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json" set:html={JSON.stringify(org)} />
 </head>
-<body data-email={contact.email} data-phone={contact.phone}>
+<body data-email={contact.email} data-phone={contact.phone || undefined}>
 <Header />
 <main id="main">
 <slot />
