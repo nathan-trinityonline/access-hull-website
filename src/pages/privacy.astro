@@ -9,12 +9,12 @@ import Base from '../layouts/Base.astro';
     <article class="lg">
       <p class="ah-eyebrow">Policies</p>
       <h1 id="pr-h">Privacy notice</h1>
-      <p class="lg-up">Last updated 2 October 2026</p>
+      <p class="lg-up">Last updated 6 October 2026</p>
       <p class="lg-lead">This notice explains what personal information Access:Hull collects through this website, why we collect it, and your rights over it.</p>
 
       <h2>Who we are</h2>
-      <p>Access:Hull Digital Inclusion Programme is run by <span class="ph">[legal name of the organisation]</span>, <span class="ph">[registered address]</span>. We are the data controller for the information you give us. Our registration number with the Information Commissioner's Office (ICO) is <span class="ph">[ICO registration number]</span>.</p>
-      <p>Our data protection contact is <span class="ph">[name or role]</span>, {contact.email}{contact.phone && `, ${contact.phone}`}.</p>
+      <p>Access:Hull Digital Inclusion Programme is the data controller for the personal information you give us through this website.</p>
+      <p>If you have a question about how we use your information, email us at <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
 
       <h2>What we collect</h2>
       <div class="tscroll"><table class="lg-t">
@@ -22,6 +22,7 @@ import Base from '../layouts/Base.astro';
         <tbody>
           <tr><td>Fill in the partner questionnaire</td><td>Your name, role, email, phone, organisation details, the wards you work in and how you'd like to help</td><td>To assess and set up a partnership and to contact you about it</td><td>Legitimate interests, and consent to contact you</td></tr>
           <tr><td>Send a contact form message</td><td>Your name, email, phone (optional), topic and message</td><td>To answer your enquiry</td><td>Legitimate interests</td></tr>
+          <tr><td>Offer to donate a device</td><td>Your name, email, phone, postcode, organisation (if you are a business), details of the devices and, if you ask us to collect them, your collection address</td><td>To arrange the donation, collection and data wipe, and to send a data-wipe certificate if you ask for one</td><td>Legitimate interests</td></tr>
           <tr><td>Use the ward checker or map</td><td>Nothing. The ward you choose stays in your browser and isn't sent to us</td><td>Not applicable</td><td>Not applicable</td></tr>
         </tbody>
       </table></div>
@@ -38,6 +39,7 @@ import Base from '../layouts/Base.astro';
       <h2>How long we keep it</h2>
       <ul>
         <li><b>Contact form messages:</b> 2 years after we last reply to you</li>
+        <li><b>Device donation offers:</b> 12 months after the donation is complete</li>
         <li><b>Partner questionnaires:</b> for as long as you are a partner, then 2 years. If we don't go ahead, 12 months.</li>
       </ul>
 
