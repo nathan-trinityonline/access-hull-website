@@ -5,3 +5,6 @@
 <Files "config.example.php">
   Require all denied
 </Files>
+<Files "lib.php">
+  Require all denied
+</Files>

@@ -69,6 +69,16 @@ The upload step is skipped until `SG_SSH_KEY` exists, so the build still runs an
 
 The contact, partner and donate-a-device forms post to `/api/form.php`, which emails them. Each form has its own recipients (`MAIL_TO_*` in the workflow file). Spam protection: a hidden honeypot field and a limit of 5 submissions per visitor every 10 minutes. Without JavaScript, visitors land on `/thank-you/`.
 
+### Community survey
+
+`/survey/` posts to `/api/survey.php`, and `/survey-results/` reads totals from `/api/results.php` every minute. Answers, survey help requests and copies of the other forms are stored in an SQLite database at `www/accesshull.co.uk/private/accesshull.sqlite` on SiteGround, outside `public_html`, so the deploy never touches it and it can't be downloaded. Help requests are stored separately from answers with nothing linking them, and are deleted after 12 months. Results only show groups of 5 or more.
+
+The questions live in `src/data/survey.json`. Changing an option there also changes what the server accepts.
+
+Help requests are emailed to `MAIL_TO_SURVEY` in the workflow file; `SURVEY_ALERT_EVERY_RESPONSE: "true"` also sends a short email (ward only) for every other response.
+
+Staff export: anyone signed in to `/admin/` with publish access to the GitHub repository sees a "Download spreadsheet" panel on `/survey-results/`. The server checks their GitHub access before sending any data.
+
 ## Content editor (Decap CMS)
 
 Editors use `/admin/` to write news articles, update contact details and manage the Find help places. Publishing saves to GitHub, and the site updates a few minutes later once the deploy has run.

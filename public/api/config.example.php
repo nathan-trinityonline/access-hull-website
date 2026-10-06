@@ -14,6 +14,12 @@ return [
         'donate-a-device' => ['to' => ['donations@example.org.uk'], 'subject' => 'New device donation offer'],
     ],
 
+    // Community survey: help requests (and, if every_response is true, every response) are emailed here.
+    'survey_alerts' => ['to' => ['hello@example.org.uk'], 'every_response' => true],
+
+    // Staff who can publish to this GitHub repository can download the survey export.
+    'github_repo' => 'your-org/access-hull-website',
+
     // Content editor (Decap CMS) sign-in. Create a GitHub OAuth app with the callback URL
     // https://YOUR-DOMAIN/api/auth.php and paste its details here.
     'github_client_id' => '',

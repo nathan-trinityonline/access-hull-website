@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import q from '../data/survey.json';
+---
+<Base title="Live survey results" description="What Hull is telling us: live results from the Access:Hull community survey on getting online. Totals only, and areas with fewer than 5 answers are not shown.">
+
+  <section class="st-hero" aria-labelledby="sr-h">
+    <div class="ah-in">
+      <p class="ah-eyebrow"><span class="live-dot" aria-hidden="true"></span> Live results</p>
+      <h1 id="sr-h">What Hull is telling us</h1>
+      <p class="lead">Results from our community survey, updated as people take part. Totals only: no one can be identified.</p>
+      <div class="ah-btns"><a class="btn btn-p" href="/survey/">Take the survey</a></div>
+    </div>
+  </section>
+  <section class="ah-sec sr-sec" aria-label="Results">
+    <div class="ah-in">
+      <div class="sr-admin" id="sr-admin" hidden>
+        <div><h2>Export to spreadsheet</h2><p>Only you can see this. Downloads an Excel file with the latest data.</p></div>
+        <label class="consent"><input type="checkbox" id="sr-x-contacts" checked> Include help requests and form submissions (contains personal details)</label>
+        <button type="button" class="btn btn-p" id="sr-x-btn">Download spreadsheet</button>
+        <p class="sr-x-msg" id="sr-x-msg" role="status" aria-live="polite"></p>
+      </div>
+      <p class="sr-upd" id="sr-upd" aria-live="polite"></p>
+      <div class="sr-empty" id="sr-empty">
+        <h2>No responses yet</h2>
+        <p>Results will appear here as soon as people start taking part. Be the first.</p>
+        <a class="btn btn-p" href="/survey/">Take the survey</a>
+      </div>
+      <div id="sr-body" hidden>
+        <ul class="sr-kpis" id="sr-kpis"></ul>
+        <div class="sr-grid">
+          <div class="sr-card"><h2>Responses by ward</h2><p class="sr-note">Wards with fewer than 5 responses are not shown.</p><svg class="sr-map" id="sr-map" role="img" aria-label="Map of survey responses by ward"></svg><div class="sr-leg" id="sr-leg"></div></div>
+          <div class="sr-card"><h2>What being offline makes harder</h2><p class="sr-note">Share of people who answered</p><div class="sr-bars" id="sr-impact"></div></div>
+          <div class="sr-card"><h2>Can't yet do on their own</h2><p class="sr-note">Share who need help or can't do this yet</p><div class="sr-bars" id="sr-skills"></div></div>
+          <div class="sr-card"><h2>Help people asked for</h2><p class="sr-note">Share of people who asked for help</p><div class="sr-bars" id="sr-help"></div></div>
+          <div class="sr-card"><h2>How people get online at home</h2><p class="sr-note">Share of people who answered</p><div class="sr-bars" id="sr-access"></div></div>
+          <div class="sr-card"><h2>Cost in the last 12 months</h2><p class="sr-note">Share of people who answered</p><div class="sr-bars" id="sr-cost"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline type="application/json" id="sr-tasks" set:html={JSON.stringify(q.tasks)}></script>
+  <script slot="scripts" is:inline src="/js/ward-data.js"></script>
+  <script slot="scripts" is:inline src="/js/survey-results.js"></script>
+</Base>

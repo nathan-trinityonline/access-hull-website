@@ -1,7 +1,8 @@
 <?php
-// Receives the contact, partner and donate-a-device forms and emails them.
+// Receives the contact, partner and donate-a-device forms, emails them and keeps a copy for the staff export.
 // Recipients and the sender address are set in config.php (see config.example.php).
 declare(strict_types=1);
+require __DIR__ . '/lib.php';
 
 $wantsJson = stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
 
@@ -23,9 +24,7 @@ function finish(bool $ok, int $status, bool $json): void {
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') finish(false, 405, $wantsJson);
 
-$configFile = __DIR__ . '/config.php';
-if (!is_file($configFile)) { error_log('Access:Hull forms: api/config.php is missing'); finish(false, 500, $wantsJson); }
-$config = require $configFile;
+$config = ah_config();
 
 $formName = (string)($_POST['form-name'] ?? '');
 $form = $config['forms'][$formName] ?? null;
@@ -35,13 +34,7 @@ if (!$form) finish(false, 400, $wantsJson);
 if (trim((string)($_POST['bot-field'] ?? '')) !== '') finish(true, 200, $wantsJson);
 
 // Basic flood protection: at most 5 submissions per address every 10 minutes.
-$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$bucket = sys_get_temp_dir() . '/ah-form-' . hash('sha256', $ip);
-$now = time();
-$times = array_filter(array_map('intval', @file($bucket, FILE_IGNORE_NEW_LINES) ?: []), fn($t) => $t > $now - 600);
-if (count($times) >= 5) finish(false, 429, $wantsJson);
-$times[] = $now;
-@file_put_contents($bucket, implode("\n", $times), LOCK_EX);
+if (ah_rate_limited('form')) finish(false, 429, $wantsJson);
 
 // Build a readable email from the submitted fields.
 $skip = ['form-name', 'bot-field'];
@@ -53,6 +46,7 @@ $labels = [
     'wipe_certificate' => 'Wants a data-wipe certificate', 'other_devices' => 'Other devices',
 ];
 $lines = [];
+$record = [];
 $fields = 0;
 foreach ($_POST as $key => $value) {
     if (in_array($key, $skip, true)) continue;
@@ -61,25 +55,19 @@ foreach ($_POST as $key => $value) {
     $value = mb_substr(trim($value), 0, 5000);
     if ($value === 'on') $value = 'Yes';
     $label = $labels[$key] ?? ucfirst(str_replace(['_', '-'], ' ', (string)$key));
+    $record[$label] = $value;
     $lines[] = $label . ":\n" . ($value === '' ? '(not given)' : $value) . "\n";
 }
 $body = implode("\n", $lines) . "\n--\nSent from the Access:Hull website on " . date('j F Y \a\t H:i') . "\n";
 
-$clean = fn(string $s) => trim(str_replace(["\r", "\n"], ' ', $s));
-$replyTo = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL) ?: '';
-$from = $clean((string)$config['from']);
-$fromName = $clean((string)($config['from_name'] ?? 'Website'));
+// Keep a copy for the staff export. The email still goes out if this fails.
+try {
+    ah_db()->prepare('INSERT INTO submissions (form, created_at, data) VALUES (?, ?, ?)')
+        ->execute([$formName, gmdate('Y-m-d H:i:s'), json_encode($record)]);
+    ah_purge();
+} catch (Throwable $e) {
+    error_log('Access:Hull forms: could not store submission: ' . $e->getMessage());
+}
 
-$headers = [
-    'From' => sprintf('%s <%s>', mb_encode_mimeheader($fromName), $from),
-    'Content-Type' => 'text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding' => '8bit',
-    'MIME-Version' => '1.0',
-];
-if ($replyTo) $headers['Reply-To'] = $clean($replyTo);
-
-$to = implode(', ', array_map($clean, (array)$form['to']));
-$subject = mb_encode_mimeheader($clean((string)$form['subject']));
-$sent = mail($to, $subject, $body, $headers, '-f' . $from);
-if (!$sent) error_log("Access:Hull forms: mail() failed for $formName");
+$sent = ah_mail((array)$form['to'], (string)$form['subject'], $body, (string)($_POST['email'] ?? ''));
 finish($sent, $sent ? 200 : 500, $wantsJson);

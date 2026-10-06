@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import q from '../data/survey.json';
+import wards from '../data/wards.json';
+---
+<Base title="Community survey" description="Tell us about getting online in Hull. Five minutes, anonymous, and you can ask for help at the end. Your answers shape where Access:Hull puts support.">
+
+  <section class="st-hero" aria-labelledby="sv-h">
+    <div class="ah-in">
+      <p class="ah-eyebrow">Community survey</p>
+      <h1 id="sv-h">Tell us about getting online in Hull</h1>
+      <p class="lead">Help us understand what makes it hard to get online, and what would help. It takes about 5 minutes. Your answers are anonymous unless you ask us for help.</p>
+      <ul class="st-facts">
+        <li><b id="sv-count">0</b><span>people have taken part so far</span></li>
+        <li><b>5 min</b><span>six short steps</span></li>
+        <li><b>Anonymous</b><span>unless you ask for help</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="ah-sec" aria-label="Survey">
+    <div class="ah-in sv-grid">
+      <form class="pq sv" id="sv" novalidate>
+        <p class="hp" hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="steps" aria-hidden="true">
+          <div class="steps-bar"><i id="sv-bar"></i></div>
+          <ol class="steps-list s6" id="sv-steps"><li>About you</li><li>Getting online</li><li>Cost</li><li>Skills</li><li>Impact</li><li>Help</li></ol>
+        </div>
+        <p class="steps-sr" id="sv-stepinfo" aria-live="polite"></p>
+
+        <fieldset class="step" data-step="0">
+          <legend>About you</legend>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-who-l">
+            <span class="gl" id="sv-who-l">Who are you filling this in for?</span>
+            <div class="seg">
+              <label><input type="radio" name="who" value="Myself" checked> Myself</label>
+              <label><input type="radio" name="who" value="Someone I'm helping"> Someone I'm helping</label>
+            </div>
+            <p class="hint">Staff and volunteers: choose "Someone I'm helping" and answer with them.</p>
+          </div>
+          <label for="sv-ward">Which area do they live in?
+            <select id="sv-ward" required><option value="">Choose a ward</option>{[...wards, ...q.extra_wards].map((w) => <option>{w}</option>)}</select>
+          </label>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-age-l">
+            <span class="gl" id="sv-age-l">Age</span>
+            <div class="chips sv-chips" data-name="age" data-required="1">{q.single.age.map((v) => <label class="chip-c"><input type="radio" name="age" value={v} />{v}</label>)}</div>
+          </div>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-dis-l">
+            <span class="gl" id="sv-dis-l">Do you have a disability or long-term health condition? (optional)</span>
+            <div class="chips sv-chips" data-name="disability">{q.single.disability.map((v) => <label class="chip-c"><input type="radio" name="disability" value={v} />{v}</label>)}</div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="1" hidden>
+          <legend>How you get online</legend>
+          <div class="grp"><span class="gl">How do you get online at home? Choose all that apply.</span>
+            <div class="checks sv-chk" data-name="access" data-required="1">{q.multi.access.map((v) => <label><input type="checkbox" name="access" value={v} /> {v}</label>)}</div></div>
+          <div class="grp"><span class="gl">Which devices do you have? Choose all that apply.</span>
+            <div class="checks sv-chk" data-name="devices" data-required="1">{q.multi.devices.map((v) => <label><input type="checkbox" name="devices" value={v} /> {v}</label>)}</div></div>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-freq-l"><span class="gl" id="sv-freq-l">How often do you go online?</span>
+            <div class="chips sv-chips" data-name="freq" data-required="1">{q.single.freq.map((v) => <label class="chip-c"><input type="radio" name="freq" value={v} />{v}</label>)}</div></div>
+        </fieldset>
+
+        <fieldset class="step" data-step="2" hidden>
+          <legend>Cost</legend>
+          <div class="grp"><span class="gl">In the last 12 months, have any of these happened? Choose all that apply.</span>
+            <div class="checks sv-chk" data-name="cost" data-required="1">{q.multi.cost.map((v) => <label><input type="checkbox" name="cost" value={v} /> {v}</label>)}</div></div>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-st-l"><span class="gl" id="sv-st-l">Have you heard of social tariffs (cheaper broadband and phone deals for people on benefits)?</span>
+            <div class="chips sv-chips" data-name="tariff" data-required="1">{q.single.tariff.map((v) => <label class="chip-c"><input type="radio" name="tariff" value={v} />{v}</label>)}</div></div>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-ben-l"><span class="gl" id="sv-ben-l">Do you get Universal Credit, Pension Credit or another benefit?</span>
+            <div class="chips sv-chips" data-name="benefits" data-required="1">{q.single.benefits.map((v) => <label class="chip-c"><input type="radio" name="benefits" value={v} />{v}</label>)}</div></div>
+        </fieldset>
+
+        <fieldset class="step" data-step="3" hidden>
+          <legend>Skills and confidence</legend>
+          <div class="grp"><span class="gl">Can you do these things online?</span>
+            <div class="sv-matrix" id="sv-matrix" role="group" aria-label="Online skills">
+              <div class="sv-mrow sv-mhead" aria-hidden="true"><span></span>{q.levels.map((l) => <span>{l}</span>)}</div>
+              {q.tasks.map((t, ti) => (
+                <div class="sv-mrow" role="radiogroup" aria-label={t}>
+                  <span class="sv-mt">{t}</span>
+                  {q.levels.map((l) => <label class="sv-mc"><input type="radio" name={`sk${ti}`} value={l} aria-label={`${t}: ${l}`} /><span>{l}</span></label>)}
+                </div>
+              ))}
+            </div></div>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-conf-l"><span class="gl" id="sv-conf-l">How confident do you feel online? 1 is not at all, 5 is very confident.</span>
+            <div class="chips sv-chips sv-scale" data-name="confidence" data-required="1">{q.single.confidence.map((v) => <label class="chip-c"><input type="radio" name="confidence" value={v} />{v}</label>)}</div></div>
+        </fieldset>
+
+        <fieldset class="step" data-step="4" hidden>
+          <legend>What being offline costs you</legend>
+          <div class="grp"><span class="gl">Has not being online, or not feeling confident, made any of these harder? Choose all that apply.</span>
+            <div class="checks sv-chk" data-name="impact" data-required="1">{q.multi.impact.map((v) => <label><input type="checkbox" name="impact" value={v} /> {v}</label>)}</div></div>
+        </fieldset>
+
+        <fieldset class="step" data-step="5" hidden>
+          <legend>Would you like help?</legend>
+          <div class="grp" role="radiogroup" aria-labelledby="sv-help-l"><span class="gl" id="sv-help-l">Would you like someone from Access:Hull to help you?</span>
+            <div class="seg">
+              <label><input type="radio" name="wantHelp" value="Yes"> Yes, please</label>
+              <label><input type="radio" name="wantHelp" value="No" checked> No, thanks</label>
+            </div>
+          </div>
+          <div class="sv-help" id="sv-help" hidden>
+            <div class="grp"><span class="gl">What would help? Choose all that apply.</span>
+              <div class="checks sv-chk" data-name="helpWith">{q.multi.helpWith.map((v) => <label><input type="checkbox" name="helpWith" value={v} /> {v}</label>)}</div></div>
+            <div class="grp" role="radiogroup" aria-labelledby="sv-how-l"><span class="gl" id="sv-how-l">How would you like help?</span>
+              <div class="chips sv-chips" data-name="helpHow">{q.single.helpHow.map((v) => <label class="chip-c"><input type="radio" name="helpHow" value={v} />{v}</label>)}</div></div>
+            <div class="sv-contact">
+              <p class="sv-cnote">We only ask for these so we can contact you. They're stored separately from your survey answers and never shown in the results.</p>
+              <div class="row2">
+                <label for="sv-name">First name<input id="sv-name" autocomplete="given-name"></label>
+                <label for="sv-time">Best time to contact you
+                  <select id="sv-time"><option value="">Any time</option>{q.single.bestTime.map((t) => <option>{t}</option>)}</select></label>
+                <label for="sv-phone">Phone<input id="sv-phone" type="tel" autocomplete="tel"></label>
+                <label for="sv-email">Email<input id="sv-email" type="email" autocomplete="email"></label>
+                <label for="sv-lang">Preferred language (optional)<input id="sv-lang" placeholder="For example English, Polish, Kurdish"></label>
+                <label for="sv-pc">Full postcode (optional)<input id="sv-pc" autocomplete="postal-code" placeholder="So we can find your nearest hub"></label>
+              </div>
+              <label for="sv-needs">Anything that would help us support you? (optional)<input id="sv-needs" placeholder="For example large print, an interpreter, a hearing loop"></label>
+              <label class="consent"><input type="checkbox" id="sv-consent"> I'm happy for Access:Hull to contact me about getting help.</label>
+              <label class="consent"><input type="checkbox" id="sv-share"> You can pass my details to a local partner, such as a library or community hub, who can help me. (optional)</label>
+              <p class="hint">See our <a href="/privacy/">privacy notice</a>. We'll contact you within 5 working days.</p>
+            </div>
+          </div>
+          <label for="sv-more">Anything else you'd like to tell us? (optional, please don't include personal details)<textarea id="sv-more" rows="3"></textarea></label>
+        </fieldset>
+
+        <div class="pq-foot">
+          <button class="btn btn-s" type="button" id="sv-prev">Back</button>
+          <button class="btn btn-p" type="button" id="sv-next">Continue</button>
+          <button class="btn btn-p" type="submit" id="sv-submit" hidden>Send my answers</button>
+          <p class="pq-out" id="sv-out" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div class="pq-done" id="sv-done" hidden tabindex="-1">
+        <h2>Thank you for taking part.</h2>
+        <p id="sv-done-p">Your answers have been added to the live results.</p>
+        <div class="ah-btns" style="margin-top:18px"><a class="btn btn-p" href="/survey-results/">See the live results</a><button type="button" class="btn btn-s" id="sv-again">Fill it in for someone else</button></div>
+      </div>
+      <aside class="sv-side" aria-label="About this survey">
+        <h2>Why we're asking</h2>
+        <p>Official data shows where digital exclusion is likely. This survey tells us what's really happening, street by street, so we can put help where it's needed.</p>
+        <h2>Your privacy</h2>
+        <ul>
+          <li>Your answers are anonymous.</li>
+          <li>Only totals are shown in the live results, and areas with fewer than 5 answers aren't shown.</li>
+          <li>Contact details are only collected if you ask for help, and are kept separately.</li>
+        </ul>
+        <a class="fh-link" href="/survey-results/">See the live results</a>
+      </aside>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline type="application/json" id="sv-q" set:html={JSON.stringify({ tasks: q.tasks })}></script>
+  <script slot="scripts" is:inline src="/js/survey.js"></script>
+</Base>

@@ -1,0 +1,24 @@
+{
+ "min_group": 5,
+ "tasks": ["Send an email or message", "Make a video call", "Fill in an online form", "Use the NHS App or book a GP appointment", "Use online banking", "Spot a scam"],
+ "levels": ["On my own", "With help", "Not yet"],
+ "single": {
+  "who": ["Myself", "Someone I'm helping"],
+  "age": ["16–24", "25–34", "35–49", "50–64", "65–74", "75 or over", "Prefer not to say"],
+  "disability": ["Yes", "No", "Prefer not to say"],
+  "freq": ["Every day", "Most weeks", "Now and then", "Never"],
+  "tariff": ["I'm on one", "I've heard of them", "No, never"],
+  "benefits": ["Yes", "No", "Prefer not to say"],
+  "confidence": ["1", "2", "3", "4", "5"],
+  "helpHow": ["At a hub near me", "By phone", "At home", "Online"],
+  "bestTime": ["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekends"]
+ },
+ "multi": {
+  "access": ["Home broadband", "Mobile data on my phone", "Free or public Wi-Fi", "I don't get online at home"],
+  "devices": ["Smartphone", "Laptop or computer", "Tablet", "One I share with others", "None"],
+  "cost": ["I ran out of mobile data", "I cut back on broadband or my phone", "I fell behind with a phone or broadband bill", "None of these"],
+  "impact": ["Applying for jobs", "Managing benefits", "Health and GP appointments", "School or college work", "Staying in touch with people", "Saving money or comparing prices", "Using council services", "None of these"],
+  "helpWith": ["A free SIM or mobile data", "Cheaper broadband", "A device", "One-to-one help", "A group session", "Help with a specific task", "Advice on scams and staying safe"]
+ },
+ "extra_wards": ["Not sure", "Outside Hull"]
+}

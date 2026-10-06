@@ -28,6 +28,9 @@ env:
   MAIL_TO_CONTACT: info@accesshull.co.uk
   MAIL_TO_PARTNER: partners@accesshull.co.uk
   MAIL_TO_DONATE: donate@accesshull.co.uk
+  # Survey help requests always email this address; set the next line to "false" to skip an email for every other response
+  MAIL_TO_SURVEY: info@accesshull.co.uk
+  SURVEY_ALERT_EVERY_RESPONSE: "true"
   # Client ID of the GitHub OAuth app for /admin/ sign-in (not secret)
   DECAP_GITHUB_CLIENT_ID: ${{ vars.DECAP_GITHUB_CLIENT_ID }}
 
@@ -61,6 +64,8 @@ jobs:
                 "partner" => ["to" => [getenv("MAIL_TO_PARTNER")], "subject" => "New partner questionnaire"],
                 "donate-a-device" => ["to" => [getenv("MAIL_TO_DONATE")], "subject" => "New device donation offer"],
               ],
+              "survey_alerts" => ["to" => [getenv("MAIL_TO_SURVEY")], "every_response" => getenv("SURVEY_ALERT_EVERY_RESPONSE") === "true"],
+              "github_repo" => getenv("GITHUB_REPOSITORY"),
               "github_client_id" => (string)getenv("DECAP_GITHUB_CLIENT_ID"),
               "github_client_secret" => (string)getenv("DECAP_GITHUB_CLIENT_SECRET"),
             ];
