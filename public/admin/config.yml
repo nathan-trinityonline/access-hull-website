@@ -53,6 +53,12 @@ collections:
           - { name: phone, label: Phone, widget: string }
           - { name: address, label: Office address, widget: list, field: { name: line, label: Line, widget: string } }
           - { name: hours, label: Opening hours, widget: string }
+      - name: social
+        label: Social media links
+        file: src/data/social.json
+        fields:
+          - { name: linkedin, label: LinkedIn page, widget: string, required: false, hint: "Leave empty to hide the LinkedIn button" }
+          - { name: facebook, label: Facebook page, widget: string, required: false, hint: "Leave empty to hide the Facebook button" }
       - name: venues
         label: Places to get help (Find help page)
         file: src/data/venues.json

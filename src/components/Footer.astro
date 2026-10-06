@@ -1,4 +1,5 @@
 ---
+import Social from './Social.astro';
 import contact from '../data/contact.json';
 ---
 <footer class="ah-foot">
@@ -13,6 +14,7 @@ import contact from '../data/contact.json';
           <span><b>Office</b> Access:Hull, {contact.address.join(', ')}</span>
           <span><b>Opening hours</b> {contact.hours}</span>
         </address>
+        <div class="soc-foot"><h4>Follow us</h4><Social class="soc-dark" /></div>
       </div>
       <div><h4>Get online</h4><ul><li><a href="/#help">Free and cheap mobile data</a></li><li><a href="/find-help/">Find a digital hub</a></li><li><a href="/#help">Learn digital skills</a></li><li><a href="/social-tariffs/">Social tariffs</a></li></ul></div>
       <div><h4>Data &amp; insight</h4><ul><li><a href="/news/">News and guides</a></li><li><a href="/#data">Ward map</a></li><li><a href="/#finder-h">Check your ward</a></li><li><a href="/#data">Ward rankings</a></li></ul></div>

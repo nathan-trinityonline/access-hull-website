@@ -1,6 +1,7 @@
 ---
 import contact from '../data/contact.json';
 import Base from '../layouts/Base.astro';
+import Social from '../components/Social.astro';
 ---
 <Base title="Contact us" description="Get in touch with Access:Hull about getting online, free SIMs and social tariffs, digital hubs, our data, or working with us.">
 
@@ -44,6 +45,7 @@ import Base from '../layouts/Base.astro';
             <dt>Office</dt><dd>Access:Hull{contact.address.map((l) => <><br />{l}</>)}</dd>
             <dt>Opening hours</dt><dd>{contact.hours}</dd>
           </dl>
+          <div class="ct-follow"><h3>Follow us</h3><p>News, events and help sessions near you.</p><Social class="soc-lab" labels /></div>
           <p>Want to work with us? <a href="/partner/">Fill in the partner questionnaire</a>.</p>
         </aside>
       </div>

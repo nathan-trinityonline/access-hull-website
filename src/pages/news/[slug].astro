@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PostCard from '../../components/PostCard.astro';
 import Thumb from '../../components/Thumb.astro';
+import Social from '../../components/Social.astro';
 import { getPosts, formatDate } from '../../lib/posts';
 
 export async function getStaticPaths() {
@@ -38,6 +39,7 @@ const ld = {
       <div class="bp-body" id="bp-body"><Content /></div>
       <aside class="bp-side" aria-label="Article tools">
         {toc.length > 0 && <div id="bp-toc-wrap"><h2 class="bp-sh">On this page</h2><nav class="bp-toc" id="bp-toc" aria-label="On this page">{toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}</nav></div>}
+        <div><h2 class="bp-sh">Follow Access:Hull</h2><Social class="soc-lab" labels /></div>
         <div><h2 class="bp-sh">Share</h2>
           <div class="bp-share">
             <button type="button" class="bp-sbtn" id="bp-sh-copy" data-url={url}>Copy link</button>
