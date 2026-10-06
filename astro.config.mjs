@@ -9,5 +9,5 @@ export default defineConfig({
   build: { format: 'directory' },
   // Keep article quotes exactly as written (no automatic curly quotes)
   markdown: { processor: satteri({ features: { smartPunctuation: false } }) },
-  integrations: [sitemap({ filter: (page) => !/\/(thank-you|404)\/?$/.test(page) })],
+  integrations: [sitemap({ filter: (page) => !/\/(thank-you|404|admin)\/?$/.test(page) })],
 });

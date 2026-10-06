@@ -23,7 +23,7 @@ npm run check    # type and content checks (run before deploying)
 | News and guides | `src/content/news/*.md`, one Markdown file per article; the file name is the URL |
 | Venues for Find help | `src/data/venues.json` |
 | Contact details (footer, contact, donate, policy pages) | `src/data/contact.json` |
-| Content editor (Decap CMS) | `public/admin/` (`config.yml`, `preview.js`) |
+| Content editor (Decap CMS) | `public/admin/config.yml` (settings), `public/admin/preview.js`, `src/pages/admin/index.astro` (builds the settings into the page, since SiteGround blocks `.yml` files) |
 | Ward map data and script | `public/js/ward-data.js`, `public/js/ward-map.js` |
 | Page scripts | `public/js/*.js` (`site.js` runs on every page) |
 | Logos and share image | `public/assets/` |

@@ -1,0 +1,33 @@
+---
+// The content editor. Its settings live in public/admin/config.yml, but
+// SiteGround refuses to serve .yml files, so they are built into this page.
+import { readFileSync } from 'node:fs';
+import { parse } from 'yaml';
+
+const config = {
+  ...parse(readFileSync('public/admin/config.yml', 'utf8')),
+  load_config_file: false,
+};
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Content editor | Access:Hull</title>
+</head>
+<body>
+  <script is:inline>window.CMS_MANUAL_INIT = true;</script>
+  <script is:inline src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"></script>
+  <script is:inline src="/admin/preview.js"></script>
+  <script is:inline type="application/json" id="cms-config" set:html={JSON.stringify(config)}></script>
+  <script is:inline>
+    // Sign in through this site's own /api/auth.php (see api/config.example.php).
+    var config = JSON.parse(document.getElementById('cms-config').textContent);
+    config.backend.base_url = location.origin;
+    config.backend.auth_endpoint = 'api/auth.php';
+    CMS.init({ config: config });
+  </script>
+</body>
+</html>
