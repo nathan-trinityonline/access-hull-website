@@ -1,0 +1,67 @@
+# Refreshes the Mobile signal page (/mobile-signal/) once a month with Ofcom's latest predicted coverage.
+#
+# One-off setup:
+#   1. Get a free key at https://api.ofcom.org.uk/signup and subscribe it to "Mobile coverage".
+#   2. Add it in GitHub: Settings > Secrets and variables > Actions > New repository secret, named OFCOM_API_KEY.
+#   3. Actions > "Update mobile signal data" > Run workflow (or wait for the 3rd of the month).
+# The job takes a bit over an hour (Ofcom's free plan allows 100 lookups a minute).
+# When the figures change it commits public/js/mobile-data.js to main and starts the deploy.
+name: Update mobile signal data
+
+on:
+  schedule:
+    - cron: "0 4 3 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: mobile-coverage
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      OFCOM_API_KEY: ${{ secrets.OFCOM_API_KEY }}
+    steps:
+      - name: Check for the Ofcom key
+        if: env.OFCOM_API_KEY == ''
+        run: echo "::notice::OFCOM_API_KEY is not set, so the mobile signal data was not updated. See the top of this file for setup."
+
+      - uses: actions/checkout@v4
+        if: env.OFCOM_API_KEY != ''
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        if: env.OFCOM_API_KEY != ''
+        with:
+          node-version: 22
+
+      - name: Fetch coverage for every Hull postcode
+        if: env.OFCOM_API_KEY != ''
+        run: |
+          sed -E 's/"updated":"[^"]*",//' public/js/mobile-data.js > "$RUNNER_TEMP/before.js"
+          node scripts/fetch-mobile-coverage.mjs
+
+      - name: Commit and deploy if the figures changed
+        if: env.OFCOM_API_KEY != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The date in the file changes every run, so compare everything else.
+          if sed -E 's/"updated":"[^"]*",//' public/js/mobile-data.js | cmp -s - "$RUNNER_TEMP/before.js"; then
+            echo "Figures unchanged since the last run."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/js/mobile-data.js
+          git commit -m "Update mobile signal data from Ofcom"
+          git push origin HEAD:main
+          # Pushes made with the workflow token don't start other workflows, so start the deploy directly.
+          gh workflow run deploy.yml --ref main
