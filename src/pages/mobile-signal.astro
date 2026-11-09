@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Mobile signal by ward" description="Which parts of Hull have weak mobile signal? Ofcom's predicted indoor and outdoor coverage for EE, O2, Three and Vodafone, ward by ward.">
+
+  <section class="st-hero" aria-labelledby="ms-h">
+    <div class="ah-in">
+      <p class="ah-eyebrow">Data &amp; insight · 21 wards · 4 networks</p>
+      <h1 id="ms-h">Mobile signal across Hull</h1>
+      <p class="lead">For many people a phone is their only way online. This map shows where each network's signal is weakest, so we know where a free SIM on one network will work better than another.</p>
+    </div>
+  </section>
+
+  <section class="ah-sec" aria-label="Mobile signal map">
+    <div class="ah-in">
+      <p class="ms-empty" id="ms-empty" hidden>The figures for this map are being gathered from Ofcom and will appear here soon.</p>
+      <div class="grid">
+        <section class="panel mapcard" aria-label="Map">
+          <div class="switch" role="group" aria-label="Network" id="ms-ops"></div>
+          <div class="switch" role="group" aria-label="What to show" id="ms-measures"></div>
+          <p class="viewnote" id="ms-note"></p>
+          <div class="legend"><span class="lt">Addresses with good signal</span><div class="scale" id="ms-scale"></div></div>
+          <svg class="map" id="ms-map" role="group" aria-label="Map of Hull wards shaded by mobile signal"></svg>
+          <div class="detail" id="ms-detail" aria-live="polite"></div>
+        </section>
+
+        <section class="panel listcard" aria-label="Wards ranked">
+          <p class="lh" id="ms-lh"></p>
+          <p class="sub">Weakest first. Tap a ward to see every network.</p>
+          <div class="lrow lhead" aria-hidden="true"><span></span><span></span><span>Ward</span><span>Good</span><span>None</span></div>
+          <ol class="rank" id="ms-list"></ol>
+        </section>
+      </div>
+
+      <div class="m-foot ms-foot">
+        <p><b>What this shows.</b> Ofcom's predicted signal for every address in Hull, from the same data as its <a href="https://www.ofcom.org.uk/mobile-coverage-checker">Map your mobile</a> checker. "Good" means Ofcom expects the service to work well; "limited" means it may work but could be unreliable; "none" means no signal is expected. Each ward's figure is the share of its addresses at each level.</p>
+        <p><b>Limits.</b> These are predictions from the networks' own models, not measurements from people's phones. They don't show slow speeds at busy times or problems inside particular buildings. Tell us what you experience in the <a href="/survey/">Hull digital survey</a>.</p>
+        <p id="ms-src">Sources: Ofcom mobile coverage API; ONS Postcode Directory (Open Government Licence).</p>
+      </div>
+    </div>
+  </section>
+
+  <script slot="scripts" is:inline src="/js/ward-data.js"></script>
+  <script slot="scripts" is:inline src="/js/mobile-data.js"></script>
+  <script slot="scripts" is:inline src="/js/mobile-map.js"></script>
+</Base>
