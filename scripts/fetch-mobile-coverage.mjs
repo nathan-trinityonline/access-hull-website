@@ -3,12 +3,15 @@
 //
 // 1. Lists every live postcode in Kingston upon Hull (E06000010) and its ward from the
 //    ONS Postcode Directory (open data, Open Government Licence).
-// 2. Asks Ofcom's mobile coverage API about each postcode. Ofcom answers with one row per
-//    address (UPRN), giving EE, Three, O2 and Vodafone signal for calls and data,
-//    indoors and outdoors: 4 = good ("likely"), 3 = limited, 0 = none.
-// 3. Counts addresses per ward and writes the totals (no address-level data is kept).
+// 2. Asks Ofcom's Mobile Checker UPRN Coverage API about each postcode. Ofcom answers with one
+//    row per address (UPRN) and one 4G/5G score per network (Mc_EE, Mc_TH, Mc_O2, Mc_VO):
+//    4 = good in-home and outdoor, 3 = variable in-home but good outdoor,
+//    2 = good outdoor only, 1 = variable outdoor only, 0 = poor to none.
+// 3. Counts addresses at each score per ward and network, and writes the totals
+//    (no address-level data is kept).
 //
-// Needs a free key from https://api.ofcom.org.uk/signup (subscribe to "Mobile coverage"):
+// Needs a free key from https://apim-cnapi-shared-prod.developer.azure-api.net/
+// (subscribe to "Mobile Coverage UPRN (Basic)"):
 //   OFCOM_API_KEY=xxxx node scripts/fetch-mobile-coverage.mjs
 // Options: --limit 50 (only the first 50 postcodes, for a quick test)
 //          --out path (default public/js/mobile-data.js)
@@ -25,16 +28,15 @@ const opt = (name, def) => { const i = args.indexOf(name); return i >= 0 ? args[
 const LIMIT = Number(opt('--limit', 0)) || 0;
 const OUT = path.resolve(ROOT, opt('--out', 'public/js/mobile-data.js'));
 const KEY = process.env.OFCOM_API_KEY;
-const OFCOM = (process.env.OFCOM_API_BASE || 'https://api-proxy.ofcom.org.uk').replace(/\/$/, '');
+const OFCOM = (process.env.OFCOM_API_BASE || 'https://apim-cnapi-shared-prod.azure-api.net').replace(/\/$/, '');
 const ONSPD = (process.env.ONSPD_URL || 'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Online_ONS_Postcode_Directory_Live/FeatureServer/0').replace(/\/$/, '');
 const HULL = 'E06000010';
 const PER_MINUTE = Number(process.env.OFCOM_PER_MINUTE || 90); // stay under the free plan's 100/min
 
-const OPS = { EE: 'EE', TF: 'O2', H3: 'Three', VO: 'Vodafone' };
-const MEASURES = { DataIndoor: 'di', DataOutdoor: 'do', VoiceIndoor: 'vi', VoiceOutdoor: 'vo' };
-const FIELD = /^(EE|H3|TF|VO)(Voice|Data)(Indoor|Outdoor)$/i;
+const OPS = { EE: 'EE', O2: 'O2', TH: 'Three', VO: 'Vodafone' };
+const FIELD = /^\s*mc_(ee|o2|th|vo)\s*$/i; // Ofcom's example shows padded names, so allow spaces
 
-if (!KEY) { console.error('OFCOM_API_KEY is not set. Get a free key at https://api.ofcom.org.uk/signup'); process.exit(1); }
+if (!KEY) { console.error('OFCOM_API_KEY is not set. Get a free key at https://apim-cnapi-shared-prod.developer.azure-api.net/'); process.exit(1); }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function getJSON(url, init = {}, tries = 5) {
@@ -43,7 +45,7 @@ async function getJSON(url, init = {}, tries = 5) {
     try { res = await fetch(url, init); } catch (e) { if (i >= tries) throw e; await sleep(2000 * i); continue; }
     if (res.status === 404) return null;
     if (res.ok) return res.json();
-    if (res.status === 401 || res.status === 403) throw new Error(`${res.status} from ${new URL(url).host}: check the API key and that it is subscribed to Mobile coverage`);
+    if (res.status === 401 || res.status === 403) throw new Error(`${res.status} from ${new URL(url).host}: check the API key and that it is subscribed to Mobile Coverage UPRN`);
     if (i >= tries) throw new Error(`${res.status} from ${url}`);
     await sleep((res.status === 429 ? 20000 : 3000) * i);
   }
@@ -94,25 +96,23 @@ function addressRows(body) {
   return rows;
 }
 
-const level = (v) => { const n = Number(v); return n >= 4 ? 0 : n === 3 ? 1 : 2; }; // index into [good, limited, none]
-
 function emptyWard() {
   const w = { n: 0, postcodes: 0 };
-  for (const op of [...Object.values(OPS), 'Any']) { w[op] = {}; for (const m of Object.values(MEASURES)) w[op][m] = [0, 0, 0]; }
+  for (const op of [...Object.values(OPS), 'Any']) w[op] = [0, 0, 0, 0, 0]; // addresses at score 0..4
   return w;
 }
 
 function tally(w, row) {
-  const best = {};
+  let best = -1;
   for (const [k, v] of Object.entries(row)) {
     const m = FIELD.exec(k); if (!m) continue;
-    const op = OPS[m[1].toUpperCase()];
-    const key = MEASURES[m[2][0].toUpperCase() + m[2].slice(1).toLowerCase() + m[3][0].toUpperCase() + m[3].slice(1).toLowerCase()];
-    const lv = level(v);
-    w[op][key][lv]++;
-    best[key] = Math.min(best[key] ?? 2, lv);
+    const score = Number(v);
+    if (!Number.isInteger(score) || score < 0 || score > 4) continue;
+    w[OPS[m[1].toUpperCase()]][score]++;
+    best = Math.max(best, score);
   }
-  for (const [key, lv] of Object.entries(best)) w.Any[key][lv]++;
+  if (best < 0) return;
+  w.Any[best]++;
   w.n++;
 }
 
@@ -131,7 +131,7 @@ const main = async () => {
     const wait = next - Date.now(); if (wait > 0) await sleep(wait);
     next = Date.now() + gap;
     const pc = p.pc.replace(/\s+/g, '').toUpperCase();
-    const body = await getJSON(`${OFCOM}/mobile/coverage/${encodeURIComponent(pc)}`, { headers: { 'Ocp-Apim-Subscription-Key': KEY, Accept: 'application/json' } });
+    const body = await getJSON(`${OFCOM}/mobilechecker/UPRN/${encodeURIComponent(pc)}`, { headers: { 'Ocp-Apim-Subscription-Key': KEY, Accept: 'application/json' } });
     const rows = body ? addressRows(body) : [];
     const w = wards[byCode[p.ward]];
     if (rows.length) w.postcodes++; else missing++;
@@ -150,7 +150,7 @@ const main = async () => {
     wards,
   };
   const js = `// Predicted mobile signal by Hull ward and network. Built by scripts/fetch-mobile-coverage.mjs; do not edit by hand.\n`
-    + `// Each measure is [good, limited, none] counts of addresses. Sources: Ofcom mobile coverage API; ONS Postcode Directory (OGL).\n`
+    + `// Each network has counts of addresses at Ofcom score 0..4 (4 = good in-home and outdoor). Sources: Ofcom Mobile Checker UPRN Coverage API; ONS Postcode Directory (OGL).\n`
     + `const MOB=${JSON.stringify(data)};\n`;
   await writeFile(OUT, js);
   console.log(`Wrote ${path.relative(ROOT, OUT)}`);

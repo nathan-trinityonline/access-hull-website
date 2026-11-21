@@ -3,16 +3,19 @@
   const $=id=>document.getElementById(id);
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   const OPS=[['Any','Best network'],['EE','EE'],['O2','O2'],['Three','Three'],['Vodafone','Vodafone']];
-  const MEASURES=[['di','Data indoors','mobile data inside homes and buildings'],['do','Data outdoors','mobile data outdoors'],['vi','Calls indoors','calls inside homes and buildings']];
+  // Ofcom scores each address 0-4: 4 good in-home and outdoor, 3 variable in-home, 2 good outdoor only,
+  // 1 variable outdoor only, 0 poor to none. Each view groups the scores into [good, variable, poor or none].
+  const MEASURES=[['in','Indoors','4G/5G signal inside homes',c=>[c[4],c[3],c[0]+c[1]+c[2]]],['out','Outdoors','4G/5G signal outdoors',c=>[c[2]+c[3]+c[4],c[1],c[0]]]];
   // Share of addresses with good signal; worst bin first (red) to best (green)
   const BINS=[{min:0,max:50,lab:'Under 50%'},{min:50,max:70,lab:'50–70%'},{min:70,max:85,lab:'70–85%'},{min:85,max:95,lab:'85–95%'},{min:95,max:101,lab:'95%+'}];
   const col=i=>`var(--s${i+1})`;
   const binOf=v=>BINS.findIndex(b=>v>=b.min&&v<b.max);
   const hasData=typeof MOB!=='undefined'&&MOB&&MOB.wards;
-  let op='Any', ms='di', selected=null;
+  let op='Any', ms='in', selected=null;
 
   function pct(ward,o,m){
-    const w=hasData&&MOB.wards[ward]; const c=w&&w[o]&&w[o][m];
+    const w=hasData&&MOB.wards[ward]; const raw=w&&w[o];
+    const c=raw?MEASURES.find(x=>x[0]===m)[3](raw):null;
     const t=c?c[0]+c[1]+c[2]:0;
     return t?{good:100*c[0]/t,limited:100*c[1]/t,none:100*c[2]/t,n:t}:null;
   }
@@ -52,12 +55,12 @@
     if(!n||!hasData){d.innerHTML='<p>Hover or tap a ward to compare the four networks.</p>';return}
     const w=MOB.wards[n], label=MEASURES.find(m=>m[0]===ms)[1];
     const rows=OPS.slice(1).map(([k,lab])=>{const v=pct(n,k,ms);if(!v)return '';
-      return `<span>${lab}</span><span class="ms-bar" title="Good ${fmt(v.good)}, limited ${fmt(v.limited)}, none ${fmt(v.none)}"><i class="g" style="width:${v.good}%"></i><i class="l" style="width:${v.limited}%"></i></span><b>${fmt(v.good)}</b>`}).join('');
+      return `<span>${lab}</span><span class="ms-bar" title="Good ${fmt(v.good)}, variable ${fmt(v.limited)}, poor or none ${fmt(v.none)}"><i class="g" style="width:${v.good}%"></i><i class="l" style="width:${v.limited}%"></i></span><b>${fmt(v.good)}</b>`}).join('');
     const best=pct(n,'Any',ms);
     d.innerHTML=`<div class="row1"><h3>${esc(n)}</h3><span class="chip">${esc(label)}</span></div>
       <div class="facts"><span><b>${w.n.toLocaleString('en-GB')}</b> addresses</span>${best?`<span>Good signal on at least one network <b>${fmt(best.good)}</b></span>`:''}</div>
       <div class="comps ms-comps">${rows}</div>
-      <p class="ms-key"><i class="g"></i> Good <i class="l"></i> Limited <i class="n"></i> None</p>`;
+      <p class="ms-key"><i class="g"></i> Good <i class="l"></i> Variable <i class="n"></i> Poor or none</p>`;
   }
   function select(n){selected=n;document.querySelectorAll('#ms-list button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.n===n));show(n)}
 
@@ -69,7 +72,7 @@
       :`Share of addresses in each ward with good ${opLab} ${m[2]}.`;
     names.forEach(n=>{const v=pct(n,op,ms);
       paths[n].setAttribute('fill',v?col(binOf(v.good)):'var(--soft)');
-      paths[n].setAttribute('aria-label',v?`${n}: ${fmt(v.good)} of addresses have good ${opLab} ${m[1].toLowerCase()}`:n)});
+      paths[n].setAttribute('aria-label',v?`${n}: ${fmt(v.good)} of addresses have good ${opLab} signal ${m[1].toLowerCase()}`:n)});
     const order=names.filter(n=>pct(n,op,ms)).sort((a,b)=>pct(a,op,ms).good-pct(b,op,ms).good);
     const list=$('ms-list');list.innerHTML='';
     order.forEach((n,i)=>{const v=pct(n,op,ms);const li=document.createElement('li');
@@ -77,12 +80,12 @@
       const b=li.firstChild;b.addEventListener('click',()=>select(n));
       b.addEventListener('mouseenter',()=>show(n));b.addEventListener('mouseleave',()=>show(selected));
       list.appendChild(li)});
-    $('ms-lh').textContent=`${opLab} · ${m[1].toLowerCase()}, by ward`;
+    $('ms-lh').textContent=`${opLab} · signal ${m[1].toLowerCase()}, by ward`;
     if(!selected&&order.length)selected=order[0];
     show(selected);
   }
 
   if(!hasData){$('ms-empty').hidden=false}
-  else{$('ms-src').textContent=`Sources: Ofcom mobile coverage API, ${MOB.premises.toLocaleString('en-GB')} addresses in ${MOB.postcodes.toLocaleString('en-GB')} postcodes, updated ${new Date(MOB.updated).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}; ONS Postcode Directory (Open Government Licence).`}
+  else{$('ms-src').textContent=`Sources: Ofcom Mobile Checker (4G and 5G), ${MOB.premises.toLocaleString('en-GB')} addresses in ${MOB.postcodes.toLocaleString('en-GB')} postcodes, updated ${new Date(MOB.updated).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}; ONS Postcode Directory (Open Government Licence).`}
   render();
 })();

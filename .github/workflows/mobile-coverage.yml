@@ -1,7 +1,7 @@
 # Refreshes the Mobile signal page (/mobile-signal/) once a month with Ofcom's latest predicted coverage.
 #
 # One-off setup:
-#   1. Get a free key at https://api.ofcom.org.uk/signup and subscribe it to "Mobile coverage".
+#   1. Get a free key at https://apim-cnapi-shared-prod.developer.azure-api.net/ (subscribe to "Mobile Coverage UPRN (Basic)").
 #   2. Add it in GitHub: Settings > Secrets and variables > Actions > New repository secret, named OFCOM_API_KEY.
 #   3. Actions > "Update mobile signal data" > Run workflow (or wait for the 3rd of the month).
 # The job takes a bit over an hour (Ofcom's free plan allows 100 lookups a minute).

@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Mobile signal by ward" description="Which parts of Hull have weak mobile signal? Ofcom's predicted indoor and outdoor coverage for EE, O2, Three and Vodafone, ward by ward.">
+<Base title="Mobile signal by ward" description="Which parts of Hull have weak mobile signal? Ofcom's predicted 4G and 5G coverage, indoors and outdoors, for EE, O2, Three and Vodafone, ward by ward.">
 
   <section class="st-hero" aria-labelledby="ms-h">
     <div class="ah-in">
@@ -27,15 +27,15 @@ import Base from '../layouts/Base.astro';
         <section class="panel listcard" aria-label="Wards ranked">
           <p class="lh" id="ms-lh"></p>
           <p class="sub">Weakest first. Tap a ward to see every network.</p>
-          <div class="lrow lhead" aria-hidden="true"><span></span><span></span><span>Ward</span><span>Good</span><span>None</span></div>
+          <div class="lrow lhead" aria-hidden="true"><span></span><span></span><span>Ward</span><span>Good</span><span>Poor</span></div>
           <ol class="rank" id="ms-list"></ol>
         </section>
       </div>
 
       <div class="m-foot ms-foot">
-        <p><b>What this shows.</b> Ofcom's predicted signal for every address in Hull, from the same data as its <a href="https://www.ofcom.org.uk/mobile-coverage-checker">Map your mobile</a> checker. "Good" means Ofcom expects the service to work well; "limited" means it may work but could be unreliable; "none" means no signal is expected. Each ward's figure is the share of its addresses at each level.</p>
+        <p><b>What this shows.</b> Ofcom's predicted 4G and 5G signal for every address in Hull, from the same data as its <a href="https://www.ofcom.org.uk/mobile-coverage-checker">mobile coverage checker</a>. Indoors, "good" means Ofcom expects a reliable signal inside the home and "variable" means it may drop out indoors. Outdoors, "good" means a reliable signal outside. Each ward's figure is the share of its addresses at each level.</p>
         <p><b>Limits.</b> These are predictions from the networks' own models, not measurements from people's phones. They don't show slow speeds at busy times or problems inside particular buildings. Tell us what you experience in the <a href="/survey/">Hull digital survey</a>.</p>
-        <p id="ms-src">Sources: Ofcom mobile coverage API; ONS Postcode Directory (Open Government Licence).</p>
+        <p id="ms-src">Sources: Ofcom Mobile Checker (4G and 5G); ONS Postcode Directory (Open Government Licence).</p>
       </div>
     </div>
   </section>
