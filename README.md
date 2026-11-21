@@ -25,6 +25,7 @@ npm run check    # type and content checks (run before deploying)
 | Contact details (footer, contact, donate, policy pages) | `src/data/contact.json` |
 | Content editor (Decap CMS) | `public/admin/config.yml` (settings), `public/admin/preview.js`, `src/pages/admin/index.astro` (builds the settings into the page, since SiteGround blocks `.yml` files) |
 | Ward map data and script | `public/js/ward-data.js`, `public/js/ward-map.js` |
+| Mobile signal page (`/mobile-signal/`) | `src/pages/mobile-signal.astro`, `public/js/mobile-map.js`; data in `public/js/mobile-data.js`, refreshed monthly by `.github/workflows/mobile-coverage.yml` (needs the `OFCOM_API_KEY` secret, see the top of that file) |
 | Page scripts | `public/js/*.js` (`site.js` runs on every page) |
 | Logos and share image | `public/assets/` |
 
