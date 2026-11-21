@@ -1,4 +1,5 @@
 ---
+import { asset } from '../lib/asset';
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Mobile signal by ward" description="Which parts of Hull have weak mobile signal? Ofcom's predicted 4G and 5G coverage, indoors and outdoors, for EE, O2, Three and Vodafone, ward by ward.">
@@ -40,7 +41,7 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 
-  <script slot="scripts" is:inline src="/js/ward-data.js"></script>
-  <script slot="scripts" is:inline src="/js/mobile-data.js"></script>
-  <script slot="scripts" is:inline src="/js/mobile-map.js"></script>
+  <script slot="scripts" is:inline src={asset('/js/ward-data.js')}></script>
+  <script slot="scripts" is:inline src={asset('/js/mobile-data.js')}></script>
+  <script slot="scripts" is:inline src={asset('/js/mobile-map.js')}></script>
 </Base>

@@ -1,4 +1,5 @@
 ---
+import { asset } from '../lib/asset';
 import Base from '../layouts/Base.astro';
 import q from '../data/survey.json';
 import wards from '../data/wards.json';
@@ -153,5 +154,5 @@ import wards from '../data/wards.json';
   </section>
 
   <script slot="scripts" is:inline type="application/json" id="sv-q" set:html={JSON.stringify({ tasks: q.tasks })}></script>
-  <script slot="scripts" is:inline src="/js/survey.js"></script>
+  <script slot="scripts" is:inline src={asset('/js/survey.js')}></script>
 </Base>
