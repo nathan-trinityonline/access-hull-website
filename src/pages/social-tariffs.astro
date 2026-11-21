@@ -1,4 +1,5 @@
 ---
+import { asset } from '../lib/asset';
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Social tariffs in Hull" description="Cheaper broadband and mobile plans for people on benefits in Hull: KCOM Full Fibre Flex, O2, SMARTY and VOXI social tariffs, free SIMs, and a checker to see what you could get.">
@@ -150,5 +151,5 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 
-  <script slot="scripts" is:inline src="/js/social-tariffs.js"></script>
+  <script slot="scripts" is:inline src={asset('/js/social-tariffs.js')}></script>
 </Base>

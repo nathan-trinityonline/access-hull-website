@@ -1,4 +1,5 @@
 ---
+import { asset } from '../lib/asset';
 import Base from '../layouts/Base.astro';
 import wards from '../data/wards.json';
 ---
@@ -119,6 +120,6 @@ import wards from '../data/wards.json';
     </div>
   </section>
 
-  <script slot="scripts" is:inline src="/js/forms.js"></script>
-  <script slot="scripts" is:inline src="/js/partner.js"></script>
+  <script slot="scripts" is:inline src={asset('/js/forms.js')}></script>
+  <script slot="scripts" is:inline src={asset('/js/partner.js')}></script>
 </Base>

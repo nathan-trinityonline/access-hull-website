@@ -1,4 +1,5 @@
 ---
+import { asset } from '../lib/asset';
 import contact from '../data/contact.json';
 import Base from '../layouts/Base.astro';
 ---
@@ -154,6 +155,6 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 
-  <script slot="scripts" is:inline src="/js/forms.js"></script>
-  <script slot="scripts" is:inline src="/js/donate.js"></script>
+  <script slot="scripts" is:inline src={asset('/js/forms.js')}></script>
+  <script slot="scripts" is:inline src={asset('/js/donate.js')}></script>
 </Base>
