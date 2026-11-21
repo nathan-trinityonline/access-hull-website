@@ -48,6 +48,14 @@ jobs:
           sed -E 's/"updated":"[^"]*",//' public/js/mobile-data.js > "$RUNNER_TEMP/before.js"
           node scripts/fetch-mobile-coverage.mjs
 
+      - name: Keep a copy of the figures
+        if: env.OFCOM_API_KEY != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-data
+          path: public/js/mobile-data.js
+          retention-days: 30
+
       - name: Commit and deploy if the figures changed
         if: env.OFCOM_API_KEY != ''
         env:
@@ -62,6 +70,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/js/mobile-data.js
           git commit -m "Update mobile signal data from Ofcom"
+          # main may have moved during the hour-long fetch; only the data file changes here, so rebase is safe.
+          git pull --rebase origin main
           git push origin HEAD:main
           # Pushes made with the workflow token don't start other workflows, so start the deploy directly.
           gh workflow run deploy.yml --ref main
