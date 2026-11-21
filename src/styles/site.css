@@ -958,3 +958,5 @@ html{scroll-padding-top:90px}
 .ms-key i{width:12px;height:10px;border-radius:2px;margin-left:8px}
 .ms-key i:first-child{margin-left:0}
 .ms-foot{margin-top:22px}
+.ms-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:22px 0 14px;padding:16px 18px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:var(--r)}
+.ms-cta p{margin:0;font-size:15px;max-width:62ch}
